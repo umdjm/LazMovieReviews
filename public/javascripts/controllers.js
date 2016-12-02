@@ -80,7 +80,7 @@
                     }
                 );
 
-                reviewService.getAllReviews($scope.movieId).then(
+                reviewService.getAllReviews($scope.myreview.movieId).then(
                     function(reviews){
                         $scope.allreviews = {};
                         reviews.forEach(function(review){
