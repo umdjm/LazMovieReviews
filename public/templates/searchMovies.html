@@ -1,13 +1,21 @@
-<h1>Movie Search</h1>
-<form ng-submit="search()">
-    Title: <input ng-model="title"/>
-    <button type="submit">Search</button>
-</form>
-<ul>
-    <li ng-repeat="movie in results.Search track by movie.imdbID">
-        <img ng-src="{{movie.Poster}}"/>
-        {{movie.Title}}{{", " + movie.Year}} <a
-                href="http://www.imdb.com/title/{{movie.imdbID}}" target="_blank">
-            View on IMDB
-        </a></li>
-</ul>
+<section class="site-container search">
+    <form ng-submit="search()">
+        <input type="text" ng-model="title" placeholder="Search Movie Title"><button type="submit" class="btn btn-success">Search</button>
+    </form>
+</section>
+
+<div class="row">
+    <div class="col col-20" ng-repeat="movie in results.Search track by movie.imdbID">
+        <a href="/#/reviews" class="movie-list">
+            <img class="movie-poster" ng-src="{{movie.Poster}}" alt="{{movie.Title}}">
+            <span class="movie-title">{{movie.Title}}</span>
+        </a>
+        <span class="movie-rating">
+            <span class="star star-active"></span>
+            <span class="star star-active"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+        </span>
+    </div>
+</div>
