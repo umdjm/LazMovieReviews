@@ -96,33 +96,28 @@
         }
     ])
 
-    .factory('movieService', [
-        '$http',
-        function($http) {
-            var url = 'https://www.omdbapi.com/?i=tt0096895&plot=short&r=json';
-
-            function getMovie() {
-                return $http.get(url)
+    .factory('Omdb', [
+        '$http', '$httpParamSerializer',
+        function ($http, $httpParamSerializer) {
+            var url = "https://www.omdbapi.com/?";
+            function get(imdbID) {
+                return $http.get(url + $httpParamSerializer({i: imdbID, plot: 'short'}))
                     .then(function success(response) {
                         return response.data;
                     }, function fail(response){
                         console.log(JSON.stringify(response));
                     });
             }
-
-            return {
-                getMovie: getMovie
-            };
-        }
-    ])
-
-    .factory('Omdb', [
-        '$http', '$httpParamSerializer',
-        function ($http, $httpParamSerializer) {
             function search(title) {
-                return $http.get("https://www.omdbapi.com/?" + $httpParamSerializer({s: title}));
+                return $http.get(url + $httpParamSerializer({s: title}))
+                    .then(function success(response) {
+                    return response.data;
+                }, function fail(response){
+                    console.log(JSON.stringify(response));
+                });
             }
             return {
+                get: get,
                 search: search
             }
         }

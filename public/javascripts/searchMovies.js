@@ -18,8 +18,8 @@
         'Omdb',
         function($scope, Omdb) {
             $scope.search = function() {
-                Omdb.search($scope.title).then(function(response) {
-                    $scope.results = response.data;
+                Omdb.search($scope.title).then(function(results) {
+                    $scope.results = results;
                 })
             }
 
