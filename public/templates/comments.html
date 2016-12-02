@@ -39,9 +39,11 @@
     <div>
         <h4 class="header">Comments</h4>
         <div id="comments">
-            <div ng-repeat="comment in comments">
+            <div ng-repeat="comment in comments | orderBy: '-time'">
                 <label><strong>{{comment.name}}</strong></label>
-                {{comment.time}}<br>
+                {{comment.time | ordinalDate: 'MMMM doo, yyyy'}} at
+                {{comment.time | date: 'h:mm a'}}
+                <br>
                 <div>{{comment.comment}}</div>
                 <br>
             </div>

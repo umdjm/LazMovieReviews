@@ -42,27 +42,11 @@
                 self.comments.push(comment);
             });
 
-            self.timeStamp = function() {
-                var now    = new Date();
-                var date   = [now.getMonth() + 1, now.getDate(), now.getFullYear()];
-                var time   = [now.getHours(), now.getMinutes()];
-                var suffix = (time[0] < 12) ? 'AM' : 'PM';
-                time[0]    = (time[0] < 12) ? time[0] : time[0] - 12;
-
-                for (var i = 1; i < 3; i++) {
-                    if (time[i] < 10) {
-                        time[i] = '0' + time[i];
-                    }
-                }
-
-                return date.join('/') + ' at ' + time.join(':') + ' ' + suffix;
-            };
-
             service.postComment = function(name, comment) {
                 ref.push({
                     name: name,
                     comment: comment,
-                    time: self.timeStamp()
+                    time: (new Date()).getTime()
                 });
             };
 
@@ -71,6 +55,26 @@
             };
 
             return service;
+        }
+    ]);
+
+    app.filter('ordinalDate', [
+        '$filter',
+        function($filter) {
+            var suffixes = ['th', 'st', 'nd', 'rd'];
+
+            return function (input, format) {
+                var filter = new $filter('date')(input, format);
+                if (!filter) {
+                    return input;
+                }
+
+                var day    = parseInt($filter('date')(input, 'dd'));
+                var offset = (day < 30) ? day % 20 : day % 30;
+                var suffix = (offset <= 3) ? suffixes[offset] : suffixes[0];
+
+                return filter.replace('oo', suffix);
+            };
         }
     ]);
 
