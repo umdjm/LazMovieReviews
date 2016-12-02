@@ -34,7 +34,7 @@
         app.config([
             '$routeProvider',
             function($routeProvider) {
-                $routeProvider.when('/reviews', {
+                $routeProvider.when('/reviews/:imdbID', {
                     templateUrl: 'public/templates/movieReview.html',
                     controller: 'ReviewController'
                 });
@@ -43,11 +43,13 @@
 
     app.controller('ReviewController', [
             '$scope',
+            '$routeParams',
             'reviewService',
-            'movieService',
-            function($scope, reviewService, movieService) {
-                $scope.myreview = {movieId: "tt0096895", userId: "mvU3ePaqJd", stars:null, blog: null};
-                movieService.getMovie().then(
+            'Omdb',
+            function($scope, $routeParams, reviewService, Omdb) {
+                $scope.myreview = {movieId: $routeParams.imdbID, userId: "mvU3ePaqJd", stars:null, blog: null};
+
+                Omdb.get($scope.movieId).then(
                     function(movie){
                         $scope.movie = movie;
                     }
