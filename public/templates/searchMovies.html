@@ -1,0 +1,13 @@
+<h1>Movie Search</h1>
+<form ng-submit="search()">
+    Title: <input ng-model="title"/>
+    <button type="submit">Search</button>
+</form>
+<ul>
+    <li ng-repeat="movie in results.Search track by movie.imdbID">
+        <img ng-src="{{movie.Poster}}"/>
+        {{movie.Title}}{{", " + movie.Year}} <a
+                href="http://www.imdb.com/title/{{movie.imdbID}}" target="_blank">
+            View on IMDB
+        </a></li>
+</ul>

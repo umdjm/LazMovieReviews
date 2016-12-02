@@ -84,6 +84,17 @@
                 getMovie: getMovie
             };
         }
-    ]);
+    ])
 
+    .factory('Omdb', [
+        '$http', '$httpParamSerializer',
+        function ($http, $httpParamSerializer) {
+            function search(title) {
+                return $http.get("https://www.omdbapi.com/?" + $httpParamSerializer({s: title}));
+            }
+            return {
+                search: search
+            }
+        }
+    ]);
 })();
