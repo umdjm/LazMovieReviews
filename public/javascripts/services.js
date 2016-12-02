@@ -63,6 +63,26 @@
                 getReviews: getReviews
             };
         }
+    ])
+
+    .factory('movieService', [
+        '$http',
+        function($http) {
+            var url = 'https://www.omdbapi.com/?i=tt0096895&plot=short&r=json';
+
+            function getMovie() {
+                return $http.get(url)
+                    .then(function success(response) {
+                        return response.data;
+                    }, function fail(response){
+                        console.log(JSON.stringify(response));
+                    });
+            }
+
+            return {
+                getMovie: getMovie
+            };
+        }
     ]);
 
 })();

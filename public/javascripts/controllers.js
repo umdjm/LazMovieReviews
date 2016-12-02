@@ -31,10 +31,28 @@
         }
     ]),
 
-        app.controller('ReviewController', [
+        app.config([
+            '$routeProvider',
+            function($routeProvider) {
+                $routeProvider.when('/reviews', {
+                    templateUrl: 'public/templates/movieReview.html',
+                    controller: 'ReviewController'
+                });
+            }
+        ]);
+
+    app.controller('ReviewController', [
+            '$scope',
             'reviewService',
-            function(reviewService) {
-                console.log("called reviewController route");
+            'movieService',
+            function($scope, reviewService, movieService) {
+                $scope.movieId = "tt0096895";
+                movieService.getMovie().then(
+                    function(movie){
+                        $scope.movie = movie;
+                    }
+                );
+
                 /*var self = this;
                 self.addItem = function(){
                     reviewService.addReview(self.newReview)

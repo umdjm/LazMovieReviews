@@ -1,21 +1,24 @@
 <h1>Reviews</h1>
 
-<ul>
-
-</ul>
-
-<label>Rate:
-    <input type="text" name="uName" required="" />
-    <input type="submit" value="Save" />
-</label>
-
 <br/>
-<input type="radio" ng-model="stars" value="1">1</br>
-<input type="radio" ng-model="stars" value="2">2</br>
-<input type="radio" ng-model="stars" value="3">3</br>
-<input type="radio" ng-model="stars" value="4">4</br>
-<input type="radio" ng-model="stars" value="5">5</br>
+Rate The Movie:
+        <input type="radio" ng-model="stars" value="1">1</br>
+        <input type="radio" ng-model="stars" value="2">2</br>
+        <input type="radio" ng-model="stars" value="3">3</br>
+        <input type="radio" ng-model="stars" value="4">4</br>
+        <input type="radio" ng-model="stars" value="5">5</br>
 
-{{stars}}
-{{foo}}
-<movie-info movieId="tt0096895"></movie-info>
+{{movie.Title}}</br>
+<img ng-src="{{movie.Poster}}"/></br>
+Year: {{movie.Year}}</br>
+Rate: {{movie.Rated}}</br>
+Runtime: {{movie.Runtime}}</br>
+Genre: {{movie.Genre}}</br>
+Director: {{movie.Director}}</br>
+Writer: {{movie.Writer}}</br>
+Actors: {{movie.Actors}}</br>
+Directors: {{movie.Director}}</br>
+Plot: {{movie.Plot}}</br>
+Awards: {{movie.Awards}}</br>
+Meta Score: {{movie.Metascore}}</br>
+Imdb Rating: {{movie.imdbRating}}</br>
