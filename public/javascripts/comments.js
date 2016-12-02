@@ -20,7 +20,6 @@
             $scope.comments = CommentService.getComments();
 
             $scope.postComment = function() {
-                console.log($scope.commentForm);
                 if ($scope.commentForm.$valid) {
                     CommentService.postComment($scope.name, $scope.comment);
                 }
