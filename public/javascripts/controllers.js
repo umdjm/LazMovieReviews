@@ -10,14 +10,14 @@
     ]);
 
     app.controller('ProofOfConceptController', [
+        '$scope',
         'parseService',
-        function(parseService) {
-            var self = this;
-            self.addItem = function(){
+        function($scope, parseService) {
+            var self = this;            self.addItem = function() {
                 parseService.addUser(self.newUser)
                     .then(function(user){
-                        self.users.push(user);
-                        self.newUser = {};
+                        $scope.users.push(user);
+                        $scope.newUser = {};
                     });
 
                 return;
@@ -25,7 +25,7 @@
 
             parseService.getUsers().then(
                 function(users){
-                    self.users = users;
+                    $scope.users = users;
                 }
             );
         }
