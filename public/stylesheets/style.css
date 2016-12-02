@@ -76,10 +76,17 @@ a:hover {
     box-sizing: border-box;
     padding: 0 15px 40px 15px;
     float: left;
+    min-height: 485px;
+    height: auto;
+}
+.movie-poster-wrapper {
+    width: 100%;
+    height:
 }
 .movie-poster {
     max-width: 100%;
     width: auto;
+    min-height: 300px;
     height: auto;
     border: 1px solid #000;
     margin-bottom: 10px;
