@@ -6,7 +6,9 @@
     </li>
 </ul>
 
+<form ng-submit="$ctrl.addItem()">
 <label>Name:
     <input type="text" ng-model="$ctrl.newUser.name" name="uName" required="" />
-    <input type="submit" ng-click="$ctrl.addItem()" value="Save" />
+    <input type="submit" value="Save" />
 </label>
+</form>
