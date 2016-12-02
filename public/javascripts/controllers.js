@@ -53,12 +53,12 @@
                     }
                 );
 
-                /*var self = this;
-                self.addItem = function(){
-                    reviewService.addReview(self.newReview)
+                $scope.addItem = function(){
+                    $scope.userId = "";
+                    var newReview = {userId: $scope.userId, movieId: $scope.movieId, stars: $scope.stars, blog: $scope.blog};
+                    reviewService.addReview(newReview)
                         .then(function(review){
-                            self.reviews.push(review);
-                            self.newReview = {};
+                            $scope.reviews.push(review);
                         });
 
                     return;
@@ -66,9 +66,9 @@
 
                 reviewService.getReviews().then(
                     function(reviews){
-                        self.reviews = reviews;
+                        $scope.reviews = reviews;
                     }
-                );*/
+                );
             }
         ]);
 })();

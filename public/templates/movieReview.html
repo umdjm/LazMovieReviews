@@ -8,6 +8,12 @@ Rate The Movie:
         <input type="radio" ng-model="stars" value="4">4</br>
         <input type="radio" ng-model="stars" value="5">5</br>
 
+
+Tell us what you think:</br>
+<textarea ng-model="blog"> </textarea></br>
+
+<button ng-click="addReview"></button>
+
 {{movie.Title}}</br>
 <img ng-src="{{movie.Poster}}"/></br>
 Year: {{movie.Year}}</br>
@@ -22,3 +28,4 @@ Plot: {{movie.Plot}}</br>
 Awards: {{movie.Awards}}</br>
 Meta Score: {{movie.Metascore}}</br>
 Imdb Rating: {{movie.imdbRating}}</br>
+
