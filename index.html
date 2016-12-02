@@ -1,35 +1,11 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <script src="https://npmcdn.com/parse/dist/parse.js"></script>
-  <script>
-      Parse.initialize("9d300721-df9d-42bc-8411-1659efbbed66");
-      Parse.serverURL = 'https://lazmoviereviews.herokuapp.com/parse';
-
-      // Create
-      var TestObject = Parse.Object.extend("TestObject");
-      var testObject = new TestObject();
-      testObject.save({foo: "bar"}).then(function(object) {
-          alert("yay! it worked");
-      });
-
-      // Query
-      var TestObject = Parse.Object.extend("TestObject");
-      var query = new Parse.Query(TestObject);
-      query.equalTo("foo", "bar");
-      query.find({
-          success: function(results) {
-              alert("Successfully retrieved " + results.length + " scores.");
-              alert(JSON.stringify(results));
-          },
-          error: function(error) {
-              alert("Error: " + error.code + " " + error.message);
-          }
-      });
-
-  </script>
-
-</head>
-<body>
-</body>
+  <head>
+    <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.js"></script>
+    <script type="text/javascript" src="/javascripts/angular.js"></script>
+    <script type="text/javascript" src="/javascripts/lazMovieApp.js"></script>
+  </head>
+  <body ng-app="LazMovieReviews" ng-controller="MainCtrl">
+    <proof-of-concept></proof-of-concept>
+  </body>
 </html>

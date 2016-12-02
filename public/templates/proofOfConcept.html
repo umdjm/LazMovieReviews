@@ -1,0 +1,12 @@
+<h1>Users</h1>
+
+<ul>
+    <li ng-repeat="user in $ctrl.users">
+        {{user.name}}
+    </li>
+</ul>
+
+<label>Name:
+    <input type="text" ng-model="$ctrl.newUser.name" name="uName" required="" />
+    <input type="submit" ng-click="$ctrl.addItem()" value="Save" />
+</label>
