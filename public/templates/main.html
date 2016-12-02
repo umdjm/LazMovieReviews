@@ -1,1 +1,12 @@
-<h1>Main</h1>
+<h1>Users</h1>
+
+<ul>
+    <li ng-repeat="user in users">
+        {{user.name}}
+    </li>
+</ul>
+
+<label>Name:
+    <input type="text" ng-model="newUser.name" name="uName" required="">
+    <input type="submit" ng-click="addItem()" value="Save">
+</label>

@@ -1,9 +1,9 @@
 (function() {
     'use strict';
 
-    var main = angular.module('LazMovieReviews')
+    var app = angular.module('LazMovieReviews')
 
-    main.config([
+    app.config([
         '$routeProvider',
         function($routeProvider) {
             $routeProvider.when('/', {
@@ -13,10 +13,26 @@
         }
     ]);
 
-    main.controller('MainController', [
-        '$scope',
-        function MainController($scope) {
-            console.log('MainController()');
-        }
-    ]);
+        app.controller('MainController', [
+            '$scope',
+            'parseService',
+            function($scope, parseService) {
+                var self = this;
+                self.addItem = function() {
+                    parseService.addUser(self.newUser)
+                        .then(function(user){
+                            $scope.users.push(user);
+                            $scope.newUser = {};
+                        });
+
+                    return;
+                };
+
+                parseService.getUsers().then(
+                    function(users){
+                        $scope.users = users;
+                    }
+                );
+            }
+        ]);
 })();
