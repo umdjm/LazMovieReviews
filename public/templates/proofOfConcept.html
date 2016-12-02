@@ -1,14 +1,19 @@
 <h1>Users</h1>
 
 <ul>
-    <li ng-repeat="user in $ctrl.users">
+    <li ng-repeat="user in users">
         {{user.name}}
     </li>
 </ul>
 
 <label>Name:
-    <input type="text" ng-model="$ctrl.newUser.name" name="uName" required="" />
-    <input type="submit" ng-click="$ctrl.addItem()" value="Save" />
+    <input type="text" ng-model="newUser.name" name="uName" required="">
+    <input type="submit" ng-click="addItem()" value="Save">
 </label>
 
-<a href="/reviews">Go To Reviews</a>
+
+
+<ul>
+    <li><a href="/login">Login</a></li>
+    <li><a href="/signup">Signup</a></li>
+</ul>

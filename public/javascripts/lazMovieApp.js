@@ -11,18 +11,6 @@
                 enabled: true,
                 requireBase: false
             });
-
-            /**
-             * Routes
-             */
-            $routeProvider.when('/', {
-                templateUrl: 'public/templates/proofOfConcept.html',
-                controller: 'ProofOfConceptController'
-            }).when('/reviews', {
-                templateUrl: 'public/templates/movieReview.html',
-                controller: 'ReviewController'
-            }).otherwise({ redirectTo: '/' });
-
         }
     ]);
 }());
