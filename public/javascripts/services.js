@@ -43,6 +43,7 @@
             function addReview(data) {
                 return $http.post(url, data, config)
                     .then(function success(response) {
+                        debugger;;
                         return data;
                     }, function fail(response) {
                         console.log(JSON.stringify(response));
