@@ -46,27 +46,43 @@
             'reviewService',
             'movieService',
             function($scope, reviewService, movieService) {
-                $scope.movieId = "tt0096895";
+                $scope.myreview = {movieId: "tt0096895", userId: "mvU3ePaqJd", stars:null, blog: null};
                 movieService.getMovie().then(
                     function(movie){
                         $scope.movie = movie;
                     }
                 );
 
-                $scope.addItem = function(){
-                    $scope.userId = "";
-                    var newReview = {userId: $scope.userId, movieId: $scope.movieId, stars: $scope.stars, blog: $scope.blog};
-                    reviewService.addReview(newReview)
-                        .then(function(review){
-                            $scope.reviews.push(review);
-                        });
 
+                $scope.addReview = function(){
+                    if ($scope.myreview['objectId']) {
+                        reviewService.updateReview($scope.myreview)
+                            .then(function(){
+                                $scope.allreviews[$scope.myreview.objectId] = $scope.myreview;
+                            });
+                    } else {
+                        reviewService.addReview($scope.myreview)
+                            .then(function(objectId){
+                                $scope.myreview.objectId = objectId;
+                                $scope.allreviews[objectId] = $scope.myreview;
+                            });
+                    }
                     return;
                 };
 
-                reviewService.getReviews().then(
+                reviewService.getMyReview($scope.myreview.userId, $scope.myreview.movieId).then(
+                    function(review){
+                        if (review)
+                          $scope.myreview = review;
+                    }
+                );
+
+                reviewService.getAllReviews($scope.movieId).then(
                     function(reviews){
-                        $scope.reviews = reviews;
+                        $scope.allreviews = {};
+                        reviews.forEach(function(review){
+                            $scope.allreviews[review.objectId] = review;
+                        });
                     }
                 );
             }
