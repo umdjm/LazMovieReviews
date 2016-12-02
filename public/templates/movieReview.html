@@ -1,24 +1,56 @@
-<h1>Reviews</h1>
+<img ng-src="{{movie.Poster}}" class="movie-poster movie-poster-page float-xs-right">
+<h1>{{movie.Title}} ({{movie.Year}})<br /><span class="small">{{movie.Rated}}</span></h1>
 
-<br/>
-Rate The Movie:
-        <input type="radio" ng-model="stars" value="1">1</br>
-        <input type="radio" ng-model="stars" value="2">2</br>
-        <input type="radio" ng-model="stars" value="3">3</br>
-        <input type="radio" ng-model="stars" value="4">4</br>
-        <input type="radio" ng-model="stars" value="5">5</br>
+<span class="movie-rating">
+    Average User Rating:
+    <span class="star star-active"></span>
+    <span class="star star-active"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+</span>
 
-{{movie.Title}}</br>
-<img ng-src="{{movie.Poster}}"/></br>
-Year: {{movie.Year}}</br>
-Rate: {{movie.Rated}}</br>
-Runtime: {{movie.Runtime}}</br>
-Genre: {{movie.Genre}}</br>
-Director: {{movie.Director}}</br>
-Writer: {{movie.Writer}}</br>
-Actors: {{movie.Actors}}</br>
-Directors: {{movie.Director}}</br>
-Plot: {{movie.Plot}}</br>
-Awards: {{movie.Awards}}</br>
-Meta Score: {{movie.Metascore}}</br>
-Imdb Rating: {{movie.imdbRating}}</br>
+<p class="movie-description">{{movie.Plot}}</p>
+<blockquote>
+    <strong>Runtime:</strong> {{movie.Runtime}}</br>
+    <strong>Genre:</strong> {{movie.Genre}}</br>
+    <strong>Director:</strong> {{movie.Director}}</br>
+    <strong>Writer:</strong> {{movie.Writer}}</br>
+    <strong>Actors:</strong> {{movie.Actors}}</br>
+    <strong>Directors:</strong> {{movie.Director}}</br>
+    <strong>Awards:</strong> {{movie.Awards}}</br>
+    <strong>Meta Score:</strong> {{movie.Metascore}}</br>
+    <strong>imdb Rating:</strong> {{movie.imdbRating}}</br>
+</blockquote>
+<hr />
+<span class="movie-rating">
+    Rate this movie:
+    <span class="star star-hover"></span>
+    <span class="star star-hover"></span>
+    <span class="star star-hover"></span>
+    <span class="star star-hover"></span>
+    <span class="star star-hover"></span>
+    <textarea ng-model="blog" placeholder="Comment"> </textarea>
+    <button ng-click="addReview" class="btn btn-primary">Submit</button>
+</span>
+
+
+        <input type="hidden" ng-model="stars" value="1">
+        <input type="hidden" ng-model="stars" value="2">
+        <input type="hidden" ng-model="stars" value="3">
+        <input type="hidden" ng-model="stars" value="4">
+        <input type="hidden" ng-model="stars" value="5">
+
+
+<hr />
+<div class="review">
+    <h4>user</h4>
+    <span class="movie-rating">
+        <span class="star star-active"></span>
+        <span class="star star-active"></span>
+        <span class="star"></span>
+        <span class="star"></span>
+        <span class="star"></span>
+    </span>
+    <p>Lorem ipsum dolor sit amet, partem scripta dissentiet mei at, eum albucius nominati in. Noster gubergren in eam, ei semper percipit pro. Quodsi alterum minimum has ad. No per stet utroque. Soluta senserit an sed, facer pertinax mnesarchum pri et. Te nam illum eripuit, vis et debitis adipiscing percipitur, eu vide dolore mei.</p>
+</div>
