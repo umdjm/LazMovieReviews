@@ -32,6 +32,13 @@
                     getUsers: getUsers
                 };
             }
+        ])
+
+        .factory('Omdb', [
+            '$resource',
+            function ($resource) {
+
+            }
         ]);
 
 })();

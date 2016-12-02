@@ -1,6 +1,6 @@
 
 (function(){
-    var app = angular.module('LazMovieReviews', []).controller('MainCtrl', function MainCtrl() {});
+    var app = angular.module('LazMovieReviews', ['ngResource']).controller('MainCtrl', function MainCtrl() {});
 
     function ProofOfConceptController(parseService) {
         var self = this;
