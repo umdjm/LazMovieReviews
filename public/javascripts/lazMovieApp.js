@@ -1,27 +1,24 @@
-
 (function(){
-    var app = angular.module('LazMovieReviews', []).controller('MainCtrl', function MainCtrl() {});
+    var app = angular.module('LazMovieReviews', [
+        'ngRoute'
+    ]);
 
-    function ProofOfConceptController(parseService) {
-        var self = this;
-        self.addItem = function(){
-            parseService.addUser(self.newUser)
-                .then(function(user){
-                    self.users.push(user);
-                    self.newUser = {};
-                })
+    app.config([
+        '$locationProvider',
+        '$routeProvider',
+        function($locationProvider, $routeProvider) {
+            $locationProvider.html5Mode({
+                enabled: true,
+                requireBase: false
+            });
 
-            return;
-        };
-        parseService.getUsers().then(
-            function(users){
-                self.users = users;
-            }
-        );
-    }
-
-    app.component('proofOfConcept', {
-        templateUrl: 'public/templates/proofOfConcept.html',
-        controller: ProofOfConceptController
-    });
-}())
+            /**
+             * Routes
+             */
+            $routeProvider.when('/', {
+                templateUrl: 'public/templates/proofOfConcept.html',
+                controller: 'ProofOfConceptController'
+            }).otherwise({ redirectTo: '/' });
+        }
+    ]);
+}());
