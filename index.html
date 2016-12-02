@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="LazMovieReviews">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -7,8 +7,12 @@
 
     <script src="https://npmcdn.com/parse/dist/parse.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>
+<<<<<<< HEAD
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular-route.js"></script>
+=======
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular-route.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular-resource.min.js"></script>
+>>>>>>> 811e9e73e3929c20d149c1c0661819bb962f78dc
     <script src="public/javascripts/lazMovieApp.js"></script>
     <script src="public/javascripts/controllers.js"></script>
     <script src="public/javascripts/models.js"></script>
@@ -19,7 +23,7 @@
             integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
     <link rel="stylesheet" href="public/stylesheets/style.css">
 </head>
-<body ng-app="LazMovieReviews" ng-controller="MainCtrl">
-<proof-of-concept></proof-of-concept>
+<body>
+    <div ng-view></div>
 </body>
 </html>
