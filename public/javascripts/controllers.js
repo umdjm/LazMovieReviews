@@ -50,7 +50,7 @@
                 var movieID = $routeParams.imdbID;
                 $scope.myreview = {movieId: movieID, userId: "mvU3ePaqJd", stars:null, blog: null};
 
-                Omdb.get(movieId).then(
+                Omdb.get(movieID).then(
                     function(movie){
                         $scope.movie = movie;
                     }

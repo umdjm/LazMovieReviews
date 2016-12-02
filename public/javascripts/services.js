@@ -37,7 +37,7 @@
     .factory('reviewService', [
         '$http',
         function($http) {
-            var url = 'https://lazmoviereviews.herokuapp.com/parse/classes/Reviews';
+            var url = 'https://lazmoviereviews.herokuapp.com/parse/classes/Reviews2';
             var config = {headers: { 'X-Parse-Application-Id':'9d300721-df9d-42bc-8411-1659efbbed66'}};
 
             function addReview(data) {
