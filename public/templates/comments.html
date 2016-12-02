@@ -1,0 +1,50 @@
+<div class="comment-box">
+    <div class="comment-form">
+        <div class="header">Add Your Comment</div>
+
+        <form name="commentForm" ng-submit="postComment()" novalidate>
+            <div>
+                <input
+                    required
+                    type        = "text"
+                    name        = "name"
+                    placeholder = "Name"
+                    ng-model    = "name"
+                    ng-class    = "{ 'has-error' : commentForm.name.$invalid && !commentForm.name.$pristine }"
+                >
+                <p ng-show="commentForm.name.$invalid && (!commentForm.name.$pristine || commentForm.$submitted)" class="help-block">
+                    Your name is required.
+                </p>
+            </div>
+            <div>
+                <textarea
+                    required
+                    rows        = "5"
+                    cols        = "30"
+                    name        = "comment"
+                    placeholder = "Comment"
+                    ng-model    = "comment"
+                    ng-class    = "{ 'has-error' : commentForm.comment.$invalid && !commentForm.comment.$pristine }"
+                ></textarea>
+                <p ng-show="commentForm.comment.$invalid && (!commentForm.comment.$pristine || commentForm.$submitted)" class="help-block">
+                    Your comment is required.
+                </p>
+            </div>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+
+    <br><br>
+
+    <div>
+        <h4 class="header">Comments</h4>
+        <div id="comments">
+            <div ng-repeat="comment in comments">
+                <label><strong>{{comment.name}}</strong></label>
+                {{comment.time}}<br>
+                <div>{{comment.comment}}</div>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,12 +1,12 @@
 (function(){
     var app = angular.module('LazMovieReviews', [
-        'ngRoute'
+        'ngRoute',
+        'firebase'
     ]);
 
     app.config([
         '$locationProvider',
-        '$routeProvider',
-        function($locationProvider, $routeProvider) {
+        function($locationProvider) {
             $locationProvider.html5Mode({
                 enabled: false,
                 requireBase: false
