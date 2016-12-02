@@ -29,5 +29,28 @@
                 }
             );
         }
-    ]);
+    ]),
+
+        app.controller('ReviewController', [
+            'reviewService',
+            function(reviewService) {
+                console.log("called reviewController route");
+                /*var self = this;
+                self.addItem = function(){
+                    reviewService.addReview(self.newReview)
+                        .then(function(review){
+                            self.reviews.push(review);
+                            self.newReview = {};
+                        });
+
+                    return;
+                };
+
+                reviewService.getReviews().then(
+                    function(reviews){
+                        self.reviews = reviews;
+                    }
+                );*/
+            }
+        ]);
 })();

@@ -49,7 +49,7 @@
                     });
             }
 
-            function getReview() {
+            function getReviews() {
                 return $http.get(url, config)
                     .then(function success(response) {
                         return response.data.results;
@@ -60,7 +60,7 @@
 
             return {
                 addReview: addReview,
-                getReview: getReview
+                getReviews: getReviews
             };
         }
     ]);
