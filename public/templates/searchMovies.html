@@ -4,9 +4,10 @@
     </form>
 </section>
 
-<div class="row">
+<div ng-show="results.Error" class="alert alert-warning">{{results.Error}}</div>
+<div ng-show="results.Search.length" class="row">
     <div class="col col-20" ng-repeat="movie in results.Search track by movie.imdbID">
-        <a href="/#/reviews" class="movie-list">
+        <a ng-href="/#/reviews/{{movie.imdbID}}" class="movie-list">
             <img class="movie-poster" ng-src="{{movie.Poster}}" alt="{{movie.Title}}">
             <span class="movie-title">{{movie.Title}}</span>
         </a>
@@ -18,4 +19,5 @@
             <span class="star"></span>
         </span>
     </div>
+    Showing {{results.Search.length}} of {{results.totalResults}} total results.
 </div>
