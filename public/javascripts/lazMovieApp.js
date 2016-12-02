@@ -50,7 +50,7 @@
     app.factory('parseService', parseService);
 
     app.component('proofOfConcept', {
-        templateUrl: '/templates/proofOfConcept.html',
+        templateUrl: '/public/templates/proofOfConcept.html',
         controller: ProofOfConceptController
     });
 }())
