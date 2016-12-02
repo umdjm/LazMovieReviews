@@ -5,3 +5,4 @@ platforms
 node_modules
 plugins
 *.swp
+*.iml
