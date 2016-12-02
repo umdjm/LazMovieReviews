@@ -24,8 +24,40 @@
             integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
     <link rel="stylesheet" href="public/stylesheets/style.css">
 </head>
-<body>
+<body ng-app="LazMovieReviews" ng-controller="MainCtrl">
+<header class="site-container header">
+    <a href="/" class="header-logo"><img src="public/images/logo.png" alt="LAZ Movie Reviews" class="logo" /></a>
+    <a href="#" class="btn btn-primary btn-lg float-xs-right">Login with Facebook</a>
     <navigation></navigation>
+</header>
+<section class="site-container search">
+    <input type="text" name="Search" required="" placeholder="Search Movie Title"><button class="btn btn-success">Search</button>
+</section>
+<section class="site-container content">
+
     <div ng-view></div>
-</body>
+
+    <proof-of-concept></proof-of-concept>
+</section>
+
+
+
+
 </html>
+
+<!--
+
+  Models Required:
+
+  Movie
+  User
+  Post
+  Comment
+
+  Collections Required:
+
+  Movies
+  Users
+  Comments
+
+-->
