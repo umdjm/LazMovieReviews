@@ -24,7 +24,7 @@
         '$rootScope',
         'AuthService',
         function($scope, $location, $rootScope, AuthService) {
-            $rootScope.isAuthenticated = AuthService.isAuthenticated();
+            $scope.isAuthenticated = AuthService.isAuthenticated();
 
             $rootScope.logout = function() {
                 AuthService.logout();
@@ -34,7 +34,8 @@
 
             $scope.$on('$routeChangeStart', function() {
                 var url = $location.url();
-                if (!AuthService.isAuthenticated() && url != '/login' && url != '/signup') {
+                $scope.isAuthenticated = AuthService.isAuthenticated();
+                if (!$scope.isAuthenticated && url != '/login' && url != '/signup') {
                     $location.path('/login');
                 }
             });

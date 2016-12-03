@@ -16,10 +16,9 @@
 
     app.controller('LoginController', [
         '$scope',
-        '$rootScope',
         '$location',
         'AuthService',
-        function($scope, $rootScope, $location, AuthService) {
+        function($scope, $location, AuthService) {
             if (AuthService.isAuthenticated()) {
                 $location.path('/');
             }
@@ -33,7 +32,6 @@
             $scope.login = function() {
                 if ($scope.loginForm.$valid) {
                     AuthService.login($scope.user.email, $scope.user.password).then(function () {
-                        $rootScope.isAuthenticated = true;
                         $location.path('/');
                     }).catch(function(error) {
                         $scope.errorMessage = error.message;
@@ -45,10 +43,9 @@
 
     app.controller('SignupController', [
         '$scope',
-        '$rootScope',
         '$location',
         'AuthService',
-        function($scope, $rootScope, $location, AuthService) {
+        function($scope, $location, AuthService) {
             if (AuthService.isAuthenticated()) {
                 $location.path('/');
             }
@@ -62,7 +59,6 @@
             $scope.signup = function() {
                 if ($scope.signupForm.$valid) {
                     AuthService.signup($scope.user.email, $scope.user.password).then(function() {
-                        $rootScope.isAuthenticated = true;
                         $location.path('/');
                     }).catch(function(error) {
                         $scope.errorMessage = error.message;
