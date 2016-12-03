@@ -96,6 +96,15 @@
                         });
                     }
                 );
+                rollupService.get($scope.myreview.movieId).then(
+                    function(rollup){
+                        if(!rollup) {
+                            rollup = {count: 0, stars: 0};
+                        }
+                        $scope.averageStars = rollup.count > 0 ? (rollup.stars / rollup.count) : 0;
+                    }
+                );
+
             }
         ]);
 
