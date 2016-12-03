@@ -1,67 +1,17 @@
 <div class="row">
-    <div class="col col-20">
-        <a href="/#/reviews" class="movie-list">
-            <img class="movie-poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTYwNjAyODIyMF5BMl5BanBnXkFtZTYwNDMwMDk2._V1_SX300.jpg" alt="Movie Title">
-            <span class="movie-title">Movie Title</span>
+
+    <div class="col col-20" ng-repeat="movie in topMovies | orderBy: '-averageStars'">
+        <a ng-href="/#/reviews/{{movie.imdbID}}" class="movie-list">
+            <img class="movie-poster" ng-src="{{movie.Poster}}" alt="{{movie.Title}}">
+            <span class="movie-title">{{movie.Title}}</span>
         </a>
         <span class="movie-rating">
-            <span class="star star-active"></span>
-            <span class="star star-active"></span>
-            <span class="star"></span>
-            <span class="star"></span>
-            <span class="star"></span>
+            <span class="star" ng-class="{'star-active': movie.averageStars >= 1}"></span>
+            <span class="star" ng-class="{'star-active': movie.averageStars >= 2}"></span>
+            <span class="star" ng-class="{'star-active': movie.averageStars >= 3}"></span>
+            <span class="star" ng-class="{'star-active': movie.averageStars >= 4}"></span>
+            <span class="star" ng-class="{'star-active': movie.averageStars == 5}"></span>
         </span>
     </div>
-    <div class="col col-20">
-        <a href="/#/reviews" class="movie-list">
-            <img class="movie-poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTYwNjAyODIyMF5BMl5BanBnXkFtZTYwNDMwMDk2._V1_SX300.jpg" alt="Movie Title">
-            <span class="movie-title">Movie Title</span>
-        </a>
-        <span class="movie-rating">
-            <span class="star star-active"></span>
-            <span class="star star-active"></span>
-            <span class="star"></span>
-            <span class="star"></span>
-            <span class="star"></span>
-        </span>
-    </div>
-    <div class="col col-20">
-        <a href="/#/reviews" class="movie-list">
-            <img class="movie-poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTYwNjAyODIyMF5BMl5BanBnXkFtZTYwNDMwMDk2._V1_SX300.jpg" alt="Movie Title">
-            <span class="movie-title">Movie Title</span>
-        </a>
-        <span class="movie-rating">
-            <span class="star star-active"></span>
-            <span class="star star-active"></span>
-            <span class="star"></span>
-            <span class="star"></span>
-            <span class="star"></span>
-        </span>
-    </div>
-    <div class="col col-20">
-        <a href="/#/reviews" class="movie-list">
-            <img class="movie-poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTYwNjAyODIyMF5BMl5BanBnXkFtZTYwNDMwMDk2._V1_SX300.jpg" alt="Movie Title">
-            <span class="movie-title">Movie Title</span>
-        </a>
-        <span class="movie-rating">
-            <span class="star star-active"></span>
-            <span class="star star-active"></span>
-            <span class="star"></span>
-            <span class="star"></span>
-            <span class="star"></span>
-        </span>
-    </div>
-    <div class="col col-20">
-        <a href="/#/reviews" class="movie-list">
-            <img class="movie-poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTYwNjAyODIyMF5BMl5BanBnXkFtZTYwNDMwMDk2._V1_SX300.jpg" alt="Movie Title">
-            <span class="movie-title">Movie Title</span>
-        </a>
-        <span class="movie-rating">
-            <span class="star star-active"></span>
-            <span class="star star-active"></span>
-            <span class="star"></span>
-            <span class="star"></span>
-            <span class="star"></span>
-        </span>
-    </div>
+
 </div>

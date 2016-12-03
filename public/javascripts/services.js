@@ -41,11 +41,11 @@
             var url = 'https://lazmoviereviews.herokuapp.com/parse/classes/Reviews';
             var config = {headers: { 'X-Parse-Application-Id':'9d300721-df9d-42bc-8411-1659efbbed66'}};
 
-            function addReview(data) {
+            function addReview(data, movie) {
                 return $http.post(url, data, config)
                     .then(function success(response) {
                         var reviewId = response.data.objectId;
-                        return updateRollup(data.movieId).then(function(rollup){
+                        return updateRollup(movie).then(function(rollup){
                             return {objectId: reviewId, rollup: rollup};
                         })
                     }, function fail(response) {
@@ -53,12 +53,12 @@
                     });
             }
 
-            function updateReview(data) {
+            function updateReview(data, movie) {
                 var newUrl = url + "/" + data.objectId;
                 var reviewId = data.objectId;
                 return $http.put(newUrl, removeParsePrivateData(data), config)
                     .then(function success(response) {
-                        return updateRollup(data.movieId).then(function(rollup){
+                        return updateRollup(movie).then(function(rollup){
                             return {objectId: reviewId, rollup: rollup};
                         })
                     }, function fail(response) {
@@ -66,10 +66,10 @@
                     });
             }
 
-            function updateRollup(movieId){
-                return getAllReviews(movieId)
+            function updateRollup(movie){
+                return getAllReviews(movie.objectId)
                     .then(function(reviews){
-                        return rollupService.save(movieId, reviews)
+                        return rollupService.save(movie, reviews)
                             .then(function(rollup){
                                 return rollup;
                             })
@@ -120,12 +120,13 @@
                 var url = 'https://lazmoviereviews.herokuapp.com/parse/classes/Rollups';
                 var config = {headers: { 'X-Parse-Application-Id':'9d300721-df9d-42bc-8411-1659efbbed66'}};
 
-                function rollupData(movieId, reviews) {
-                    var result = {movieId: movieId, count: 0, stars: 0};
+                function rollupData(movie, reviews) {
+                    var result = {movieId: movie.objectId, Poster: movie.Poster, Title: movie.Title, imdbID: movie.imdbID, count: 0, stars: 0, averageStars: 0};
                     for(var reviewId in reviews){
                         var review = reviews[reviewId];
                         result.count++;
                         result.stars += review.stars;
+                        result.averageStars = result.stars/result.count;
                     };
                     return result;
                 }
@@ -164,9 +165,9 @@
                     });
                 }
 
-                function saveRollup(movieId, reviews){
-                    var rollup = rollupData(movieId, reviews);
-                    return getRollup(movieId).then(function(existingRollup){
+                function saveRollup(movie, reviews){
+                    var rollup = rollupData(movie, reviews);
+                    return getRollup(movie.objectId).then(function(existingRollup){
                         if(existingRollup != null){
                             return updateRollup(existingRollup.objectId, rollup);
                         }
@@ -176,10 +177,23 @@
                     })
                 }
 
+                function getTopRollups(limitTo){
+                    return $http({
+                        url: url,
+                        headers: { 'X-Parse-Application-Id':'9d300721-df9d-42bc-8411-1659efbbed66' },
+                        method: "GET",
+                        params: {order: "averageStars", limit: limitTo}
+                    }).then(function success(response) {
+                        return response.data.results;
+                    }, function fail(response){
+                        console.log(JSON.stringify(response));
+                    });
+                }
 
                 return {
                     get: getRollup,
-                    save: saveRollup
+                    save: saveRollup,
+                    getTopRollups: getTopRollups
                 };
             }
         ])

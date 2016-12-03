@@ -16,7 +16,8 @@
         app.controller('MainController', [
             '$scope',
             'userService',
-            function($scope, userService) {
+            'rollupService',
+            function($scope, userService, rollupService) {
                 var self = this;
                 self.addItem = function() {
                     userService.addUser(self.newUser)
@@ -33,6 +34,12 @@
                         $scope.users = users;
                     }
                 );
+
+                rollupService.getTopRollups().then(
+                    function(topMovies){
+                        $scope.topMovies = topMovies;
+                    }
+                )
             }
         ]);
 })();
