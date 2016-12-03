@@ -9,37 +9,40 @@
         }
     ]);
 
-    app.controller('ProofOfConceptController', [
+    app.config([
+        '$routeProvider',
+        function($routeProvider) {
+            $routeProvider.when('/reviews/:imdbID', {
+                templateUrl: 'public/templates/movieReview.html',
+                controller: 'ReviewController'
+            });
+        }
+    ]);
+
+    app.controller('IndividualMovieReviewListController', [
         '$scope',
-        'parseService',
-        function($scope, parseService) {
-            var self = this;            self.addItem = function() {
-                parseService.addUser(self.newUser)
-                    .then(function(user){
-                        $scope.users.push(user);
-                        $scope.newUser = {};
+        'reviewService',
+        function($scope, reviewService) {
+            $scope.userId = this.userId;
+            reviewService.getAllReviews($scope.movieId).then(
+                function(reviews){
+                    $scope.allreviews = {};
+                    reviews.forEach(function(review){
+                        $scope.allreviews[review.objectId] = review;
                     });
-
-                return;
-            };
-
-            parseService.getUsers().then(
-                function(users){
-                    $scope.users = users;
                 }
             );
         }
-    ]),
+    ]);
 
-        app.config([
-            '$routeProvider',
-            function($routeProvider) {
-                $routeProvider.when('/reviews/:imdbID', {
-                    templateUrl: 'public/templates/movieReview.html',
-                    controller: 'ReviewController'
-                });
-            }
-        ]);
+    app.component('individualMovieReviewList', {
+        templateUrl: 'public/templates/IndividualMovieReviewList.html',
+        controller: 'IndividualMovieReviewListController',
+        bindings: {
+            movieId: '<',
+            userId: '<'
+        }
+    });
 
     app.controller('ReviewController', [
             '$scope',
@@ -68,20 +71,12 @@
                         reviewService.updateReview($scope.myreview)
                             .then(function(){
                                 $scope.allreviews[$scope.myreview.objectId] = $scope.myreview;
-                                rollupService.save($scope.myreview.movieId, $scope.allreviews)
-                                    .then(function(){
-                                        getRollupData();
-                                    })
                             });
                     } else {
                         reviewService.addReview($scope.myreview)
                             .then(function(objectId){
                                 $scope.myreview.objectId = objectId;
                                 $scope.allreviews[objectId] = $scope.myreview;
-                                rollupService.save($scope.myreview.movieId, $scope.allreviews)
-                                    .then(function(){
-                                        getRollupData();
-                                    })
                             });
                     }
                     return;
