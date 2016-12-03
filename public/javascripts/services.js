@@ -190,18 +190,59 @@
                     });
                 }
 
+                function getRollupsForMovies(movies){
+                    if(!movies || movies.length == 0)
+                        return [];
+
+                    var where = {"$or": []};
+                    for (var i = 0; i < movies.length; i++) {
+                        var movieId = movies[i].imdbID;
+                        where.$or.push({"movieId" : movieId});
+                    }
+
+                    return $http({
+                        url: url,
+                        headers: { 'X-Parse-Application-Id':'9d300721-df9d-42bc-8411-1659efbbed66' },
+                        method: "GET",
+                        params: {where: JSON.stringify(where)}
+                    }).then(function success(response) {
+                        var ratings = response.data.results;
+
+                        for (var i = 0; i < movies.length; i++) {
+                            var movie = movies[i];
+                            movie.averageStars = 0;
+                            movie.stars = 0;
+                            movie.count = 0;
+                            for (var j = 0; j < ratings.length; j++) {
+                                var rating = ratings[j];
+                                if(rating.movieId == movie.imdbID){
+                                    movie.averageStars = rating.averageStars;
+                                    movie.stars = rating.stars;
+                                    movie.count = rating.count;
+                                }
+                            }
+                        }
+                        return movies;
+                    }, function fail(response){
+                        console.log(JSON.stringify(response));
+                    });
+
+                    return where;
+                }
+
                 return {
                     get: getRollup,
                     save: saveRollup,
-                    getTopRollups: getTopRollups
+                    getTopRollups: getTopRollups,
+                    getRollupsForMovies: getRollupsForMovies
                 };
             }
         ])
 
 
         app.factory('Omdb', [
-        '$http', '$httpParamSerializer',
-        function ($http, $httpParamSerializer) {
+        '$http', '$httpParamSerializer', 'rollupService',
+        function ($http, $httpParamSerializer, rollupService) {
             var url = "https://www.omdbapi.com/?";
             function get(imdbID) {
                 return $http.get(url + $httpParamSerializer({i: imdbID, plot: 'short'}))
@@ -214,7 +255,10 @@
             function search(title) {
                 return $http.get(url + $httpParamSerializer({s: title}))
                     .then(function success(response) {
-                    return response.data;
+                        return rollupService.getRollupsForMovies(response.data.Search)
+                            .then(function(ratedMovies){
+                                return response.data;
+                            })
                 }, function fail(response){
                     console.log(JSON.stringify(response));
                 });
