@@ -48,7 +48,7 @@
             'Omdb',
             function($scope, $routeParams, reviewService, Omdb) {
                 var movieID = $routeParams.imdbID;
-                $scope.myreview = {movieId: movieID, userId: "mvU3ePaqJd", stars:null, blog: null};
+                $scope.myreview = {movieId: movieID, userId: "zY42QOdVvE", stars:null, blog: null};
 
                 Omdb.get(movieID).then(
                     function(movie){
@@ -56,6 +56,11 @@
                     }
                 );
 
+                $scope.isCurrentUser = function(review){
+                    return function(review){
+                        return review.userId == $scope.myreview.userId;
+                    };
+                };
 
                 $scope.addReview = function(){
                     if ($scope.myreview['objectId']) {
@@ -75,6 +80,7 @@
 
                 reviewService.getMyReview($scope.myreview.userId, $scope.myreview.movieId).then(
                     function(review){
+                        debugger;
                         if (review)
                           $scope.myreview = review;
                     }
@@ -90,4 +96,20 @@
                 );
             }
         ]);
+
+    app.filter('notMine', function() {
+        return function(array, userId) {
+            if(!angular.isObject(array)) return array;
+            else {
+                var newObj = {}
+                for(var key in array) {
+                    var value = array[key];
+                    if(value.userId != userId) {
+                        newObj[key] = value;
+                    }
+                }
+                return newObj;
+            }
+        }
+    })
 })();
