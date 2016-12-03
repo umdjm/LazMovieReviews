@@ -37,7 +37,6 @@
             };
 
             $rootScope.logout = function() {
-                console.log('logout');
                 AuthService.logout();
                 $scope.isAuthenticated = AuthService.isAuthenticated();
             };
@@ -60,7 +59,6 @@
 
             service.isAuthenticated = function() {
                 if (!self.user.uid) {
-                    console.log('no user')
                     // try to get from local storage
                     var user = LocalStorage.get('user');
                     if (user) {
@@ -93,7 +91,7 @@
                     LocalStorage.set('user', self.user);
                     deferred.resolve(self.user);
                 }).catch(function(error) {
-                    console.error("Authentication failed:", error);
+                    console.error('Authentication failed:', error);
                     deferred.reject();
                 });
 
@@ -101,14 +99,6 @@
             };
 
             return service;
-        }
-    ]);
-
-    app.run([
-        'AuthService',
-        function(AuthService) {
-            console.log("app run");
-            console.log(AuthService.isAuthenticated());
         }
     ]);
 }());
