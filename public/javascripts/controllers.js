@@ -45,8 +45,9 @@
             '$scope',
             '$routeParams',
             'reviewService',
+            'rollupService',
             'Omdb',
-            function($scope, $routeParams, reviewService, Omdb) {
+            function($scope, $routeParams, reviewService, rollupService, Omdb) {
                 var movieID = $routeParams.imdbID;
                 $scope.myreview = {movieId: movieID, userId: "F7ahm9dW5M", userName: "Alex", stars:null, blog: null};
 
@@ -67,12 +68,14 @@
                         reviewService.updateReview($scope.myreview)
                             .then(function(){
                                 $scope.allreviews[$scope.myreview.objectId] = $scope.myreview;
+                                rollupService.save($scope.myreview.movieId, $scope.allreviews);
                             });
                     } else {
                         reviewService.addReview($scope.myreview)
                             .then(function(objectId){
                                 $scope.myreview.objectId = objectId;
                                 $scope.allreviews[objectId] = $scope.myreview;
+                                rollupService.save($scope.myreview.movieId, $scope.allreviews);
                             });
                     }
                     return;
