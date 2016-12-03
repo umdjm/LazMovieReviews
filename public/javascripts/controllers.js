@@ -29,17 +29,42 @@
                 }
             );
         }
-    ]),
+    ]);
 
-        app.config([
-            '$routeProvider',
-            function($routeProvider) {
-                $routeProvider.when('/reviews/:imdbID', {
-                    templateUrl: 'public/templates/movieReview.html',
-                    controller: 'ReviewController'
-                });
-            }
-        ]);
+    app.controller('IndividualMovieReviewListController', [
+        '$scope',
+        'reviewService',
+        function($scope, reviewService) {
+            $scope.userId = this.userId;
+            reviewService.getAllReviews(this.movieId).then(
+                function(reviews){
+                    $scope.allreviews = {};
+                    reviews.forEach(function(review){
+                        $scope.allreviews[review.objectId] = review;
+                    });
+                }
+            );
+        }
+    ]);
+
+    app.component('individualMovieReviewList', {
+        templateUrl: 'public/templates/IndividualMovieReviewList.html',
+        controller: 'IndividualMovieReviewListController',
+        bindings: {
+            movieId: '<',
+            userId: '<'
+        }
+    });
+
+    app.config([
+        '$routeProvider',
+        function($routeProvider) {
+            $routeProvider.when('/reviews/:imdbID', {
+                templateUrl: 'public/templates/movieReview.html',
+                controller: 'ReviewController'
+            });
+        }
+    ]);
 
     app.controller('ReviewController', [
             '$scope',
@@ -47,10 +72,11 @@
             'reviewService',
             'Omdb',
             function($scope, $routeParams, reviewService, Omdb) {
-                var movieID = $routeParams.imdbID;
-                $scope.myreview = {movieId: movieID, userId: "F7ahm9dW5M", userName: "Alex", stars:null, blog: null};
+                $scope.movieId = $routeParams.imdbID;
+                $scope.userId = "F7ahm9dW5M";
+                $scope.myreview = {movieId: $scope.movieId, userId: "F7ahm9dW5M", userName: "Alex", stars:null, blog: null};
 
-                Omdb.get(movieID).then(
+                Omdb.get($scope.movieId).then(
                     function(movie){
                         $scope.movie = movie;
                     }
@@ -85,14 +111,14 @@
                     }
                 );
 
-                reviewService.getAllReviews($scope.myreview.movieId).then(
+                /*reviewService.getAllReviews($scope.myreview.movieId).then(
                     function(reviews){
                         $scope.allreviews = {};
                         reviews.forEach(function(review){
                             $scope.allreviews[review.objectId] = review;
                         });
                     }
-                );
+                );*/
             }
         ]);
 

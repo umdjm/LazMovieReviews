@@ -2,7 +2,6 @@
     'use strict';
 
     angular.module('LazMovieReviews')
-
     .factory('parseService', [
         '$http',
         function($http) {
