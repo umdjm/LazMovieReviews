@@ -36,14 +36,18 @@
 
     app.factory('reviewService', [
         '$http',
-        function($http) {
+        'rollupService',
+        function($http, rollupService) {
             var url = 'https://lazmoviereviews.herokuapp.com/parse/classes/Reviews';
             var config = {headers: { 'X-Parse-Application-Id':'9d300721-df9d-42bc-8411-1659efbbed66'}};
 
             function addReview(data) {
                 return $http.post(url, data, config)
                     .then(function success(response) {
-                        return response.data.objectId;
+                        var reviewId = response.data.objectId;
+                        return updateRollup(data.movieId).then(function(rollup){
+                            return {objectId: reviewId, rollup: rollup};
+                        })
                     }, function fail(response) {
                         console.log(JSON.stringify(response));
                     });
@@ -51,12 +55,24 @@
 
             function updateReview(data) {
                 var newUrl = url + "/" + data.objectId;
-                var newData = JSON.parse(JSON.stringify(data));
+                var reviewId = data.objectId;
                 return $http.put(newUrl, removeParsePrivateData(data), config)
                     .then(function success(response) {
-                        return response.data.objectId;
+                        return updateRollup(data.movieId).then(function(rollup){
+                            return {objectId: reviewId, rollup: rollup};
+                        })
                     }, function fail(response) {
                         console.log(JSON.stringify(response));
+                    });
+            }
+
+            function updateRollup(movieId){
+                return getAllReviews(movieId)
+                    .then(function(reviews){
+                        return rollupService.save(movieId, reviews)
+                            .then(function(rollup){
+                                return rollup;
+                            })
                     });
             }
 
@@ -114,10 +130,11 @@
                     return result;
                 }
 
-                function addRollup(movieID, rollup) {
+                function addRollup(rollup) {
                     return $http.post(url, rollup, config)
                         .then(function success(response) {
-                            return response.data.objectId;
+                            rollup.objectId = response.data.objectId;
+                            return rollup;
                         }, function fail(response) {
                             console.log(JSON.stringify(response));
                         });
@@ -127,7 +144,7 @@
                     var newUrl = url + "/" + rollupId;
                     return $http.put(newUrl, removeParsePrivateData(rollup), config)
                         .then(function success(response) {
-                            return response.data.objectId;
+                            return rollup;
                         }, function fail(response) {
                             console.log(JSON.stringify(response));
                         });
@@ -154,16 +171,15 @@
                             return updateRollup(existingRollup.objectId, rollup);
                         }
                         else {
-                            return addRollup(movieId, rollup);
+                            return addRollup(rollup);
                         }
                     })
-
                 }
 
-                return {
-                    save: saveRollup,
-                    get: getRollup
 
+                return {
+                    get: getRollup,
+                    save: saveRollup
                 };
             }
         ])
