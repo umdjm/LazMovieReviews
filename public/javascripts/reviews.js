@@ -19,8 +19,9 @@
         function($scope, reviewService) {
             var self = this;
             $scope.userId = self.userId;
+            $scope.movieId = self.movieId;
 
-            reviewService.getAllReviews(self.movieId).then(
+            reviewService.getAllReviews($scope.movieId).then(
                 function(reviews) {
                     $scope.allreviews = {};
                     reviews.forEach(function(review) {
@@ -28,6 +29,10 @@
                     });
                 }
             );
+
+            $scope.clickMe = function(){
+                debugger;
+            }
 
         }
     ]);
@@ -48,10 +53,11 @@
         'rollupService',
         'Omdb',
         function($scope, $routeParams, reviewService, rollupService, Omdb) {
-            var movieID = $routeParams.imdbID;
-            $scope.myreview = {movieId: movieID, userId: "vS2gdwcbGF", userName: "Kayla", stars:null, blog: null};
+            $scope.userId = "vS2gdwcbGF";
+            $scope.movieId = $routeParams.imdbID;
+            $scope.myreview = {movieId: $scope.movieId, userId: $scope.userId, userName: "Kayla", stars:null, blog: null};
 
-            Omdb.get(movieID).then(
+            Omdb.get($scope.movieId).then(
                 function(movie){
                     $scope.movie = movie;
                 }
@@ -65,15 +71,15 @@
 
             $scope.addReview = function() {
                 if ($scope.myreview['objectId']) {
-                    reviewService.updateReview($scope.myreview)
-                        .then(function(){
-                            $scope.allreviews[$scope.myreview.objectId] = $scope.myreview;
+                    return reviewService.updateReview($scope.myreview)
+                        .then(function(response){
+                            return setRollupData(response.rollup);
                         });
                 } else {
-                    reviewService.addReview($scope.myreview)
-                        .then(function(objectId){
-                            $scope.myreview.objectId = objectId;
-                            $scope.allreviews[objectId] = $scope.myreview;
+                    return reviewService.addReview($scope.myreview)
+                        .then(function(response){
+                            return setRollupData(response.rollup);
+                            $scope.myreview.objectId = response.objectId;
                         });
                 }
             };
@@ -85,25 +91,14 @@
                 }
             );
 
-            reviewService.getAllReviews($scope.myreview.movieId).then(
-                function(reviews){
-                    $scope.allreviews = {};
-                    reviews.forEach(function(review){
-                        if (review.userId != $scope.myreview.userId)
-                            $scope.allreviews[review.objectId] = review;
-                    });
-                }
-            );
-
             function getRollupData() {
-                rollupService.get($scope.myreview.movieId).then(
-                    function (rollup) {
-                        if (!rollup) {
-                            rollup = {count: 0, stars: 0};
-                        }
-                        $scope.averageStars = rollup.count > 0 ? (rollup.stars / rollup.count) : 0;
-                    }
-                );
+                rollupService.get($scope.myreview.movieId).then(setRollupData);
+            }
+            function setRollupData(rollup){
+                if (!rollup) {
+                    rollup = {count: 0, stars: 0};
+                }
+                $scope.averageStars = rollup.count > 0 ? (rollup.stars / rollup.count) : 0;
             }
             getRollupData();
 
