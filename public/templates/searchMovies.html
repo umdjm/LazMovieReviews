@@ -1,23 +1,7 @@
 <section class="site-container search">
     <form ng-submit="search()">
-        <input type="text" ng-model="title" placeholder="Search Movie Title"><button type="submit" class="btn btn-success">Search</button>
+        <input type="text" ng-model="title" placeholder="Search Movie Title">
+        <button type="submit" class="btn btn-success">Search</button>
     </form>
 </section>
 
-<div ng-show="results.Error" class="alert alert-warning">{{results.Error}}</div>
-<div ng-show="results.Search.length" class="row">
-    <div class="col col-20" ng-repeat="movie in results.Search track by movie.imdbID">
-        <a ng-href="/#/reviews/{{movie.imdbID}}" class="movie-list">
-            <img class="movie-poster" ng-src="{{movie.Poster}}" alt="{{movie.Title}}">
-            <span class="movie-title">{{movie.Title}}</span>
-        </a>
-        <span class="movie-rating">
-            <span class="star star-active"></span>
-            <span class="star star-active"></span>
-            <span class="star"></span>
-            <span class="star"></span>
-            <span class="star"></span>
-        </span>
-    </div>
-    Showing {{results.Search.length}} of {{results.totalResults}} total results.
-</div>

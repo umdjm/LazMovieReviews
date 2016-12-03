@@ -1,28 +1,43 @@
 (function () {
     'use strict';
 
-    var app = angular.module('LazMovieReviews')
+    var app = angular.module('LazMovieReviews');
 
     app.config([
         '$routeProvider',
         function ($routeProvider) {
-            $routeProvider.when('/searchMovies', {
-                templateUrl: 'public/templates/searchMovies.html',
-                controller: 'SearchMoviesController'
+            $routeProvider.when('/movies/:title', {
+                templateUrl: 'public/templates/movieResults.html',
+                controller: 'MovieResultsController'
             });
         }
     ]);
 
+    app.component('movieSearch', {
+        templateUrl: 'public/templates/searchMovies.html',
+        controller: 'SearchMoviesController'
+    });
+
     app.controller('SearchMoviesController', [
         '$scope',
-        'Omdb',
-        function($scope, Omdb) {
+        '$location',
+        function($scope, $location) {
             $scope.search = function() {
-                Omdb.search($scope.title).then(function(results) {
+                $location.path('/movies/' + $scope.title);
+            }
+        }
+    ]);
+
+    app.controller('MovieResultsController', [
+        '$scope',
+        '$routeParams',
+        'Omdb',
+        function($scope, $routeParams, Omdb) {
+            if ($routeParams.title != '') {
+                Omdb.search($routeParams.title).then(function(results) {
                     $scope.results = results;
                 })
             }
-
         }
     ]);
 })();
