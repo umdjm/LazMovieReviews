@@ -80,7 +80,6 @@
 
                 reviewService.getMyReview($scope.myreview.userId, $scope.myreview.movieId).then(
                     function(review){
-                        debugger;
                         if (review)
                           $scope.myreview = review;
                     }

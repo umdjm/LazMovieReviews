@@ -79,7 +79,6 @@
 
             function getAllReviews(movieId) {
                 var where = {movieId: movieId};
-                debugger;
                 return $http({
                     url: url,
                     headers: { 'X-Parse-Application-Id':'9d300721-df9d-42bc-8411-1659efbbed66' },
