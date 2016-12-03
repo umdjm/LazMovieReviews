@@ -19,15 +19,6 @@
             'rollupService',
             function($scope, userService, rollupService) {
                 var self = this;
-                self.addItem = function() {
-                    userService.addUser(self.newUser)
-                        .then(function(user){
-                            $scope.users.push(user);
-                            $scope.newUser = {};
-                        });
-
-                    return;
-                };
 
                 userService.getUsers().then(
                     function(users){

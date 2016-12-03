@@ -6,11 +6,11 @@
             <span class="movie-title">{{movie.Title}}</span>
         </a>
         <span class="movie-rating" ng-if="movie.averageStars > 0">
-            <span class="star star-hover" ng-class="{'star-active': movie.averageStars >= 1}"></span>
-            <span class="star star-hover" ng-class="{'star-active': movie.averageStars >= 2}"></span>
-            <span class="star star-hover" ng-class="{'star-active': movie.averageStars >= 3}"></span>
-            <span class="star star-hover" ng-class="{'star-active': movie.averageStars >= 4}"></span>
-            <span class="star star-hover" ng-class="{'star-active': movie.averageStars == 5}"></span>
+            <span class="star star-hover" ng-class="{'star-active': movie.averageStars > 0.5}"></span>
+            <span class="star star-hover" ng-class="{'star-active': movie.averageStars > 1.5}"></span>
+            <span class="star star-hover" ng-class="{'star-active': movie.averageStars > 2.5}"></span>
+            <span class="star star-hover" ng-class="{'star-active': movie.averageStars > 3.5}"></span>
+            <span class="star star-hover" ng-class="{'star-active': movie.averageStars > 4.5}"></span>
         </span>
     </div>
     Showing {{results.Search.length}} of {{results.totalResults}} total results.

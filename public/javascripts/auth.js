@@ -52,13 +52,14 @@
 
             $scope.user = {
                 email: '',
-                password: ''
+                password: '',
+                name: ''
             };
 
             $scope.errorMessage = '';
             $scope.signup = function() {
                 if ($scope.signupForm.$valid) {
-                    AuthService.signup($scope.user.email, $scope.user.password).then(function() {
+                    AuthService.signup($scope.user.email, $scope.user.password, $scope.user.name).then(function() {
                         $location.path('/');
                     }).catch(function(error) {
                         $scope.errorMessage = error.message;
@@ -72,7 +73,8 @@
         '$q',
         '$firebaseAuth',
         'localStorageService',
-        function($q, $firebaseAuth, LocalStorage) {
+        'userService',
+        function($q, $firebaseAuth, LocalStorage, userService) {
             var self    = this;
             var service = {};
             var auth    = $firebaseAuth();
@@ -97,7 +99,7 @@
             };
 
             service.getCurrentUser = function() {
-                if (!self.isAuthenticated) {
+                if (!service.isAuthenticated()) {
                     return {};
                 }
 
@@ -109,8 +111,13 @@
 
                 auth.$signInWithEmailAndPassword(email, password).then(function(user) {
                     self.user = user;
-                    LocalStorage.set('user', self.user);
-                    deferred.resolve(self.user);
+
+                    userService.getStoredUser(self.user).then(function(user){
+                        self.user.userId = user.objectId;
+                        self.user.name = user.name;
+                        LocalStorage.set('user', self.user);
+                        deferred.resolve(self.user);
+                    });
                 }).catch(function(error) {
                     deferred.reject(error);
                 });
@@ -118,13 +125,16 @@
                 return deferred.promise;
             };
 
-            service.signup = function(email, password) {
+            service.signup = function(email, password, name) {
                 var deferred = $q.defer();
 
                 auth.$createUserWithEmailAndPassword(email, password).then(function(user) {
                     self.user = user;
-                    LocalStorage.set('user', self.user);
-                    deferred.resolve(self.user);
+                    self.user.name = name;
+                    userService.addUser(self.user).then(function(userId){
+                        LocalStorage.set('user', self.user);
+                        deferred.resolve(self.user);
+                    });
                 }).catch(function(error) {
                     deferred.reject(error);
                 });

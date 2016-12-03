@@ -43,6 +43,7 @@ div.auth {
     margin: 50px auto;
 }
 
+div.auth input[type=text],
 div.auth input[type=email],
 div.auth input[type=password] {
     width: 100%;

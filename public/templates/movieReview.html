@@ -25,11 +25,11 @@
 <hr />
 <span class="movie-rating">
     Rate this movie:
-    <span class="star star-hover" ng-click="myreview.stars = 1" ng-class="{'star-active': myreview.stars >= 1}"></span>
-    <span class="star star-hover" ng-click="myreview.stars = 2" ng-class="{'star-active': myreview.stars >= 2}"></span>
-    <span class="star star-hover" ng-click="myreview.stars = 3" ng-class="{'star-active': myreview.stars >= 3}"></span>
-    <span class="star star-hover" ng-click="myreview.stars = 4" ng-class="{'star-active': myreview.stars >= 4}"></span>
-    <span class="star star-hover" ng-click="myreview.stars = 5" ng-class="{'star-active': myreview.stars == 5}"></span>
+    <span class="star star-hover" ng-click="myreview.stars = 1" ng-class="{'star-active': myreview.stars > 0.5}"></span>
+    <span class="star star-hover" ng-click="myreview.stars = 2" ng-class="{'star-active': myreview.stars > 1.5}"></span>
+    <span class="star star-hover" ng-click="myreview.stars = 3" ng-class="{'star-active': myreview.stars > 2.5}"></span>
+    <span class="star star-hover" ng-click="myreview.stars = 4" ng-class="{'star-active': myreview.stars > 3.5}"></span>
+    <span class="star star-hover" ng-click="myreview.stars = 5" ng-class="{'star-active': myreview.stars > 4.5}"></span>
 
     <textarea ng-model="myreview.blog" placeholder="Comment"> </textarea>
     <button ng-click="addReview()" class="btn btn-primary">Submit</button>

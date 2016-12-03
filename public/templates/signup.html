@@ -18,6 +18,20 @@
 
         <div>
             <input
+                    required
+                    type        = "text"
+                    name        = "name"
+                    ng-model    = "user.name"
+                    placeholder = "Name"
+                    ng-class    = "{ 'has-error' : signupForm.name.$invalid && !signupForm.name.$pristine }"
+            >
+        </div>
+        <p ng-show="signupForm.name.$invalid && (!signupForm.name.$pristine || signupForm.$submitted)" class="help-block">
+            Your name is required.
+        </p>
+
+        <div>
+            <input
                 required
                 type         = "password"
                 name         = "password"

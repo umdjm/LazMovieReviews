@@ -47,9 +47,10 @@
         '$routeParams',
         'reviewService',
         'rollupService',
+        'AuthService',
         'Omdb',
-        function($scope, $routeParams, reviewService, rollupService, Omdb) {
-            $scope.userId = "vS2gdwcbGF";
+        function($scope, $routeParams, reviewService, rollupService, authService, Omdb) {
+            $scope.userId = authService.getCurrentUser().uid;
             $scope.movieId = $routeParams.imdbID;
             $scope.myreview = {movieId: $scope.movieId, userId: $scope.userId, userName: "Kayla", stars:null, blog: null};
 
