@@ -146,3 +146,20 @@ a:hover {
     margin: 10px 0 10px;
     border-radius: 5px;
 }
+
+/** users */
+ul.users {
+    margin: 24px 0 0 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+ul.users li {
+    display: inline-block;
+    width: 33%;
+    padding: 0 0 24px 0;
+}
+
+ul.users li a {
+    color: #fff;
+}
