@@ -1,3 +1,4 @@
+
 <div class="review" ng-repeat="reviews in allreviews | notMine:userId">
         <a ng-href="/#/reviews/{{reviews.movieId}}" class="movie-list">
             <span class="movie-title">{{reviews.userName}}</span>
@@ -10,4 +11,5 @@
             <span class="star" ng-class="{'star-active': reviews.stars == 5}"></span>
         </span>
         <textarea ng-model="reviews.blog"> </textarea>    </span>
+
 </div>

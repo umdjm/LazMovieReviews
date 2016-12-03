@@ -23,8 +23,10 @@
         '$scope',
         'reviewService',
         function($scope, reviewService) {
-            $scope.userId = this.userId;
-            reviewService.getAllReviews($scope.movieId).then(
+            var self = this;
+            $scope.userId = self.userId;
+
+            reviewService.getAllReviews(self.movieId).then(
                 function(reviews){
                     $scope.allreviews = {};
                     reviews.forEach(function(review){
@@ -32,6 +34,7 @@
                     });
                 }
             );
+
         }
     ]);
 
@@ -51,10 +54,11 @@
             'rollupService',
             'Omdb',
             function($scope, $routeParams, reviewService, rollupService, Omdb) {
-                var movieID = $routeParams.imdbID;
-                $scope.myreview = {movieId: movieID, userId: "F7ahm9dW5M", userName: "Alex", stars:null, blog: null};
+                $scope.movieId = $routeParams.imdbID;
+                $scope.userId = "F7ahm9dW5M";
+                $scope.myreview = {movieId: $scope.movieId, userId: "F7ahm9dW5M", userName: "Alex", stars:null, blog: null};
 
-                Omdb.get(movieID).then(
+                Omdb.get($scope.movieId).then(
                     function(movie){
                         $scope.movie = movie;
                     }
@@ -82,24 +86,15 @@
                     return;
                 };
 
-                reviewService.getMyReview($scope.myreview.userId, $scope.myreview.movieId).then(
+                reviewService.getMyReview($scope.myreview.userId, $scope.movieId).then(
                     function(review){
                         if (review)
                           $scope.myreview = review;
                     }
                 );
 
-                reviewService.getAllReviews($scope.myreview.movieId).then(
-                    function(reviews){
-                        $scope.allreviews = {};
-                        reviews.forEach(function(review){
-                            $scope.allreviews[review.objectId] = review;
-                        });
-                    }
-                );
-
                 function getRollupData() {
-                    rollupService.get($scope.myreview.movieId).then(
+                    rollupService.get($scope.movieId).then(
                         function (rollup) {
                             if (!rollup) {
                                 rollup = {count: 0, stars: 0};
