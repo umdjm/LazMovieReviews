@@ -1,64 +1,54 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="LazMovieReviews">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <script src="https://npmcdn.com/parse/dist/parse.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular-route.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angularFire/2.1.0/angularfire.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-local-storage/0.5.0/angular-local-storage.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.6.2/firebase.js"></script>
-    <script>
-        // Initialize Firebase
-        var config = {
-            apiKey: "AIzaSyB7cbCwPb1BgizmA5Oa3ZZKv5zt8E8SPKQ",
-            authDomain: "laz-movie-reviews.firebaseapp.com",
-            databaseURL: "https://laz-movie-reviews.firebaseio.com",
-            storageBucket: "laz-movie-reviews.appspot.com",
-            messagingSenderId: "646447350301"
-        };
-        firebase.initializeApp(config);
-    </script>
+        <script src="https://npmcdn.com/parse/dist/parse.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular-route.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angularFire/2.1.0/angularfire.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-local-storage/0.5.0/angular-local-storage.min.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/3.6.2/firebase.js"></script>
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyB7cbCwPb1BgizmA5Oa3ZZKv5zt8E8SPKQ",
+                authDomain: "laz-movie-reviews.firebaseapp.com",
+                databaseURL: "https://laz-movie-reviews.firebaseio.com",
+                storageBucket: "laz-movie-reviews.appspot.com",
+                messagingSenderId: "646447350301"
+            };
+            firebase.initializeApp(config);
+        </script>
 
-    <script src="public/javascripts/app.js"></script>
-    <script src="public/javascripts/services.js"></script>
+        <script src="public/javascripts/app.js"></script>
+        <script src="public/javascripts/services.js"></script>
+        <script src="public/javascripts/auth.js"></script>
+        <script src="public/javascripts/navigation.js"></script>
+        <script src="public/javascripts/users.js"></script>
+        <script src="public/javascripts/main.js"></script>
+        <script src="public/javascripts/searchMovies.js"></script>
+        <script src="public/javascripts/comments.js"></script>
+        <script src="public/javascripts/reviews.js"></script>
 
-    <script src="public/javascripts/navigation.js"></script>
-    <script src="public/javascripts/users.js"></script>
-    <script src="public/javascripts/main.js"></script>
-    <script src="public/javascripts/signup.js"></script>
-    <script src="public/javascripts/searchMovies.js"></script>
-    <script src="public/javascripts/comments.js"></script>
-    <script src="public/javascripts/reviews.js"></script>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"
+                integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+        <link rel="stylesheet" href="public/stylesheets/style.css">
+    </head>
+    <body ng-app="LazMovieReviews" ng-controller="AppController">
+        <header class="site-container header">
+            <img src="public/images/logo.png" alt="LAZ Movie Reviews" class="logo" />
+            <!--<a href="#" class="btn btn-primary btn-lg float-xs-right">Login with Facebook</a>-->
+            <navigation ng-if="isAuthenticated"></navigation>
+        </header>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"
-            integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
-    <link rel="stylesheet" href="public/stylesheets/style.css">
-</head>
-<body ng-app="LazMovieReviews" ng-controller="AppController">
+        <movie-search ng-if="isAuthenticated"></movie-search>
 
-    <header class="site-container header">
-        <img src="public/images/logo.png" alt="LAZ Movie Reviews" class="logo" />
-        <!--<a href="#" class="btn btn-primary btn-lg float-xs-right">Login with Facebook</a>-->
-        <navigation ng-if="isAuthenticated"></navigation>
-    </header>
-
-    <movie-search ng-if="isAuthenticated"></movie-search>
-
-    <section class="site-container content" ng-if="isAuthenticated">
-        <div ng-view></div>
-    </section>
-
-    <section class="login" ng-if="!isAuthenticated">
-        <form name="loginForm" ng-submit="login()">
-            <input type="text" name="email" ng-model="user.email" placeholder="Email Address"><br>
-            <input type="password" name="password" ng-model="user.password" placeholder="Password"><br>
-            <input type="submit" value="Login">
-        </form>
-    </section>
-</body>
+        <section class="site-container content">
+            <div ng-view></div>
+        </section>
+    </body>
 </html>

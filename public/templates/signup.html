@@ -1,10 +1,42 @@
-<h1>Signup</h1>
+<div class="auth">
+    <h4>Signup</h4>
+    <div class="message">{{errorMessage}}</div>
+    <form name="signupForm" ng-submit="signup()" novalidate>
+        <div>
+            <input
+                required
+                type        = "email"
+                name        = "email"
+                ng-model    = "user.email"
+                placeholder = "Email Address"
+                ng-class    = "{ 'has-error' : signupForm.email.$invalid && !signupForm.email.$pristine }"
+            >
+        </div>
+        <p ng-show="signupForm.email.$invalid && (!signupForm.email.$pristine || signupForm.$submitted)" class="help-block">
+            Your email is required.
+        </p>
 
-<form name="signupForm" ng-submit="addUser()">
-    <label>Name:
-        <input type="text" ng-model="newUser.name" name="newUser" required="">
-        <input type="submit" ng-click="addItem()" value="Save">
-    </label>
-</form>
+        <div>
+            <input
+                required
+                type         = "password"
+                name         = "password"
+                ng-model     = "user.password"
+                placeholder  = "Password"
+                ng-minlength = "6"
+                ng-class     = "{ 'has-error' : signupForm.password.$invalid && !signupForm.password.$pristine }"
+            >
+        </div>
+        <p ng-show="signupForm.password.$invalid && !loginForm.password.$error.minlength && (!signupForm.password.$pristine || signupForm.$submitted)" class="help-block">
+            Your password is required.
+        </p>
 
-<div ng-show='signupSuccess'>You are now signed up!</div>
+        <p ng-show="loginForm.password.$invalid && loginForm.password.$error.minlength" class="help-block">
+            Your password must be at least 6 characters long.
+        </p>
+        <input type="submit" value="Signup">
+    </form>
+
+    <br><br>
+    Already have an account? <a href="/#/login">Login</a>
+</div>

@@ -38,13 +38,13 @@ body > header > navigation > ul li a:hover {
     background-color: #fff;
 }
 
-section.login {
+div.auth {
     width: 250px;
     margin: 50px auto;
 }
 
-section.login input[type=text],
-section.login input[type=password] {
+div.auth input[type=email],
+div.auth input[type=password] {
     width: 100%;
     margin-bottom: 12px;
     border: 0;
@@ -53,7 +53,7 @@ section.login input[type=password] {
     outline: none;
 }
 
-section.login input[type=submit] {
+div.auth input[type=submit] {
     border: 0;
     float: right;
     padding: 6px 12px;
