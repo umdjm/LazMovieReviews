@@ -45,7 +45,7 @@
                 return $http.post(url, data, config)
                     .then(function success(response) {
                         var reviewId = response.data.objectId;
-                        updateRollup(data.movieId).then(function(rollup){
+                        return updateRollup(data.movieId).then(function(rollup){
                             return {objectId: reviewId, rollup: rollup};
                         })
                     }, function fail(response) {

@@ -30,10 +30,6 @@
                 }
             );
 
-            $scope.clickMe = function(){
-                debugger;
-            }
-
         }
     ]);
 
@@ -78,8 +74,8 @@
                 } else {
                     return reviewService.addReview($scope.myreview)
                         .then(function(response){
-                            return setRollupData(response.rollup);
                             $scope.myreview.objectId = response.objectId;
+                            return setRollupData(response.rollup);
                         });
                 }
             };
