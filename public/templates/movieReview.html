@@ -3,11 +3,11 @@
 
 <span class="movie-rating">
     Average User Rating:
-    <span class="star star-active"></span>
-    <span class="star star-active"></span>
-    <span class="star"></span>
-    <span class="star"></span>
-    <span class="star"></span>
+    <span class="star" ng-class="{'star-active': averageStars >= 1}"></span>
+    <span class="star" ng-class="{'star-active': averageStars >= 2}"></span>
+    <span class="star" ng-class="{'star-active': averageStars >= 3}"></span>
+    <span class="star" ng-class="{'star-active': averageStars >= 4}"></span>
+    <span class="star" ng-class="{'star-active': averageStars == 5}"></span>
 </span>
 
 <p class="movie-description">{{movie.Plot}}</p>

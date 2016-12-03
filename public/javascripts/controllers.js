@@ -29,54 +29,29 @@
                 }
             );
         }
-    ]);
+    ]),
 
-    app.controller('IndividualMovieReviewListController', [
-        '$scope',
-        'reviewService',
-        function($scope, reviewService) {
-            $scope.userId = this.userId;
-            reviewService.getAllReviews(this.movieId).then(
-                function(reviews){
-                    $scope.allreviews = {};
-                    reviews.forEach(function(review){
-                        $scope.allreviews[review.objectId] = review;
-                    });
-                }
-            );
-        }
-    ]);
-
-    app.component('individualMovieReviewList', {
-        templateUrl: 'public/templates/IndividualMovieReviewList.html',
-        controller: 'IndividualMovieReviewListController',
-        bindings: {
-            movieId: '<',
-            userId: '<'
-        }
-    });
-
-    app.config([
-        '$routeProvider',
-        function($routeProvider) {
-            $routeProvider.when('/reviews/:imdbID', {
-                templateUrl: 'public/templates/movieReview.html',
-                controller: 'ReviewController'
-            });
-        }
-    ]);
+        app.config([
+            '$routeProvider',
+            function($routeProvider) {
+                $routeProvider.when('/reviews/:imdbID', {
+                    templateUrl: 'public/templates/movieReview.html',
+                    controller: 'ReviewController'
+                });
+            }
+        ]);
 
     app.controller('ReviewController', [
             '$scope',
             '$routeParams',
             'reviewService',
+            'rollupService',
             'Omdb',
-            function($scope, $routeParams, reviewService, Omdb) {
-                $scope.movieId = $routeParams.imdbID;
-                $scope.userId = "F7ahm9dW5M";
-                $scope.myreview = {movieId: $scope.movieId, userId: "F7ahm9dW5M", userName: "Alex", stars:null, blog: null};
+            function($scope, $routeParams, reviewService, rollupService, Omdb) {
+                var movieID = $routeParams.imdbID;
+                $scope.myreview = {movieId: movieID, userId: "F7ahm9dW5M", userName: "Alex", stars:null, blog: null};
 
-                Omdb.get($scope.movieId).then(
+                Omdb.get(movieID).then(
                     function(movie){
                         $scope.movie = movie;
                     }
@@ -93,12 +68,14 @@
                         reviewService.updateReview($scope.myreview)
                             .then(function(){
                                 $scope.allreviews[$scope.myreview.objectId] = $scope.myreview;
+                                rollupService.save($scope.myreview.movieId, $scope.allreviews);
                             });
                     } else {
                         reviewService.addReview($scope.myreview)
                             .then(function(objectId){
                                 $scope.myreview.objectId = objectId;
                                 $scope.allreviews[objectId] = $scope.myreview;
+                                rollupService.save($scope.myreview.movieId, $scope.allreviews);
                             });
                     }
                     return;
@@ -111,14 +88,23 @@
                     }
                 );
 
-                /*reviewService.getAllReviews($scope.myreview.movieId).then(
+                reviewService.getAllReviews($scope.myreview.movieId).then(
                     function(reviews){
                         $scope.allreviews = {};
                         reviews.forEach(function(review){
                             $scope.allreviews[review.objectId] = review;
                         });
                     }
-                );*/
+                );
+                rollupService.get($scope.myreview.movieId).then(
+                    function(rollup){
+                        if(!rollup) {
+                            rollup = {count: 0, stars: 0};
+                        }
+                        $scope.averageStars = rollup.count > 0 ? (rollup.stars / rollup.count) : 0;
+                    }
+                );
+
             }
         ]);
 
