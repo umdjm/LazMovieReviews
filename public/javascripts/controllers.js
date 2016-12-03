@@ -9,109 +9,114 @@
         }
     ]);
 
-    app.controller('IndividualMovieReviewListController', [
+    app.controller('ProofOfConceptController', [
         '$scope',
-        'reviewService',
-        function($scope, reviewService) {
-            $scope.userId = this.userId;
-            reviewService.getAllReviews($scope.movieId).then(
-                function(reviews){
-                    $scope.allreviews = {};
-                    reviews.forEach(function(review){
-                        $scope.allreviews[review.objectId] = review;
+        'parseService',
+        function($scope, parseService) {
+            var self = this;            self.addItem = function() {
+                parseService.addUser(self.newUser)
+                    .then(function(user){
+                        $scope.users.push(user);
+                        $scope.newUser = {};
                     });
-                }
-            );
-        }
-    ]);
 
-    app.component('individualMovieReviewList', {
-        templateUrl: 'public/templates/IndividualMovieReviewList.html',
-        controller: 'IndividualMovieReviewListController',
-        bindings: {
-            movieId: '<',
-            userId: '<'
-        }
-    });
-
-    app.config([
-        '$routeProvider',
-        function($routeProvider) {
-            $routeProvider.when('/reviews/:imdbID', {
-                templateUrl: 'public/templates/movieReview.html',
-                controller: 'ReviewController'
-            });
-        }
-    ]);
-
-    app.controller('ReviewController', [
-        '$scope',
-        '$routeParams',
-        'reviewService',
-        'rollupService',
-        'Omdb',
-        function($scope, $routeParams, reviewService, rollupService, Omdb) {
-            var movieID = $routeParams.imdbID;
-            $scope.myreview = {movieId: movieID, userId: "F7ahm9dW5M", userName: "Alex", stars:null, blog: null};
-
-            Omdb.get(movieID).then(
-                function(movie){
-                    $scope.movie = movie;
-                }
-            );
-
-            $scope.isCurrentUser = function(review){
-                return function(review){
-                    return review.userId == $scope.myreview.userId;
-                };
-            };
-
-            $scope.addReview = function(){
-                console.log($scope.myreview['objectId']);
-                if ($scope.myreview['objectId']) {
-                    reviewService.updateReview($scope.myreview)
-                        .then(function(){
-                            $scope.allreviews[$scope.myreview.objectId] = $scope.myreview;
-                            //rollupService.save($scope.myreview.movieId, $scope.allreviews);
-                        });
-                } else {
-                    reviewService.addReview($scope.myreview)
-                        .then(function(objectId){
-                            $scope.myreview.objectId = objectId;
-                            $scope.allreviews[objectId] = $scope.myreview;
-                            //rollupService.save($scope.myreview.movieId, $scope.allreviews);
-                        });
-                }
                 return;
             };
 
-            reviewService.getMyReview($scope.myreview.userId, $scope.myreview.movieId).then(
-                function(review){
-                    if (review)
-                        $scope.myreview = review;
+            parseService.getUsers().then(
+                function(users){
+                    $scope.users = users;
                 }
             );
-
-            reviewService.getAllReviews($scope.myreview.movieId).then(
-                function(reviews){
-                    debugger;
-                    $scope.allreviews = {};
-                    reviews.forEach(function(review){
-                        $scope.allreviews[review.objectId] = review;
-                    });
-                }
-            );
-            rollupService.get($scope.myreview.movieId).then(
-                function(rollup){
-                    if(!rollup) {
-                        rollup = {count: 0, stars: 0};
-                    }
-                    $scope.averageStars = rollup.count > 0 ? (rollup.stars / rollup.count) : 0;
-                }
-            );
-
         }
-    ]);
+    ]),
+
+        app.config([
+            '$routeProvider',
+            function($routeProvider) {
+                $routeProvider.when('/reviews/:imdbID', {
+                    templateUrl: 'public/templates/movieReview.html',
+                    controller: 'ReviewController'
+                });
+            }
+        ]);
+
+    app.controller('ReviewController', [
+            '$scope',
+            '$routeParams',
+            'reviewService',
+            'rollupService',
+            'Omdb',
+            function($scope, $routeParams, reviewService, rollupService, Omdb) {
+                var movieID = $routeParams.imdbID;
+                $scope.myreview = {movieId: movieID, userId: "F7ahm9dW5M", userName: "Alex", stars:null, blog: null};
+
+                Omdb.get(movieID).then(
+                    function(movie){
+                        $scope.movie = movie;
+                    }
+                );
+
+                $scope.isCurrentUser = function(review){
+                    return function(review){
+                        return review.userId == $scope.myreview.userId;
+                    };
+                };
+
+                $scope.addReview = function(){
+                    if ($scope.myreview['objectId']) {
+                        reviewService.updateReview($scope.myreview)
+                            .then(function(){
+                                $scope.allreviews[$scope.myreview.objectId] = $scope.myreview;
+                                rollupService.save($scope.myreview.movieId, $scope.allreviews)
+                                    .then(function(){
+                                        getRollupData();
+                                    })
+                            });
+                    } else {
+                        reviewService.addReview($scope.myreview)
+                            .then(function(objectId){
+                                $scope.myreview.objectId = objectId;
+                                $scope.allreviews[objectId] = $scope.myreview;
+                                rollupService.save($scope.myreview.movieId, $scope.allreviews)
+                                    .then(function(){
+                                        getRollupData();
+                                    })
+                            });
+                    }
+                    return;
+                };
+
+                reviewService.getMyReview($scope.myreview.userId, $scope.myreview.movieId).then(
+                    function(review){
+                        if (review)
+                          $scope.myreview = review;
+                    }
+                );
+
+                reviewService.getAllReviews($scope.myreview.movieId).then(
+                    function(reviews){
+                        $scope.allreviews = {};
+                        reviews.forEach(function(review){
+                            $scope.allreviews[review.objectId] = review;
+                        });
+                    }
+                );
+
+                function getRollupData() {
+                    rollupService.get($scope.myreview.movieId).then(
+                        function (rollup) {
+                            if (!rollup) {
+                                rollup = {count: 0, stars: 0};
+                            }
+                            $scope.averageStars = rollup.count > 0 ? (rollup.stars / rollup.count) : 0;
+                        }
+                    );
+                }
+                getRollupData();
+
+            }
+        ]);
 
     app.filter('notMine', function() {
         return function(array, userId) {
