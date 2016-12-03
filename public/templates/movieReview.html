@@ -48,7 +48,7 @@
 <individual-movie-review-list movieId="movieId" userId="userId"></individual-movie-review-list>
 -->
 
-<div class="review" ng-repeat="reviews in allreviews">
+<div class="review" ng-repeat="reviews in allreviews | notMine:myreview.userId"">
     <a ng-href="/#/reviews/{{reviews.movieId}}" class="movie-list">
         <span class="movie-title">{{reviews.userName}}</span>
     </a>

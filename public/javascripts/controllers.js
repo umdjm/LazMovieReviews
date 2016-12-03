@@ -116,7 +116,7 @@
             }
         ]);
 
-    /*app.filter('notMine', function() {
+    app.filter('notMine', function() {
         return function(array, userId) {
             if(!angular.isObject(array)) return array;
             else {
@@ -130,5 +130,5 @@
                 return newObj;
             }
         }
-    })*/
+    })
 })();
