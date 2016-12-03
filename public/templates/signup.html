@@ -1,1 +1,10 @@
 <h1>Signup</h1>
+
+<form name="signupForm" ng-submit="addUser()">
+    <label>Name:
+        <input type="text" ng-model="newUser.name" name="newUser" required="">
+        <input type="submit" ng-click="addItem()" value="Save">
+    </label>
+</form>
+
+<div ng-show='signupSuccess'>You are now signed up!</div>

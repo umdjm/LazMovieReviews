@@ -15,11 +15,11 @@
 
         app.controller('MainController', [
             '$scope',
-            'parseService',
-            function($scope, parseService) {
+            'userService',
+            function($scope, userService) {
                 var self = this;
                 self.addItem = function() {
-                    parseService.addUser(self.newUser)
+                    userService.addUser(self.newUser)
                         .then(function(user){
                             $scope.users.push(user);
                             $scope.newUser = {};
@@ -28,7 +28,7 @@
                     return;
                 };
 
-                parseService.getUsers().then(
+                userService.getUsers().then(
                     function(users){
                         $scope.users = users;
                     }

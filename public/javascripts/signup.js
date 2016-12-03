@@ -15,8 +15,16 @@
 
     app.controller('SignupController', [
         '$scope',
-        function SignupController($scope) {
-            console.log('SignupController()');
+        'userService',
+        function SignupController($scope, userService) {
+            $scope.signupSuccess = false;
+            $scope.addUser = function() {
+                if ($scope.signupForm.$valid) {
+                    userService.addUser($scope.newUser);
+                    $scope.signupSuccess = true;
+                }
+            };
         }
     ]);
+
 })();

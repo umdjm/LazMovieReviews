@@ -3,7 +3,7 @@
 
     var app = angular.module('LazMovieReviews');
 
-    app.factory('parseService', [
+    app.factory('userService', [
         '$http',
         function($http) {
             var url = 'https://lazmoviereviews.herokuapp.com/parse/classes/Users';
