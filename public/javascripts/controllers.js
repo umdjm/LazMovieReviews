@@ -68,14 +68,20 @@
                         reviewService.updateReview($scope.myreview)
                             .then(function(){
                                 $scope.allreviews[$scope.myreview.objectId] = $scope.myreview;
-                                rollupService.save($scope.myreview.movieId, $scope.allreviews);
+                                rollupService.save($scope.myreview.movieId, $scope.allreviews)
+                                    .then(function(){
+                                        getRollupData();
+                                    })
                             });
                     } else {
                         reviewService.addReview($scope.myreview)
                             .then(function(objectId){
                                 $scope.myreview.objectId = objectId;
                                 $scope.allreviews[objectId] = $scope.myreview;
-                                rollupService.save($scope.myreview.movieId, $scope.allreviews);
+                                rollupService.save($scope.myreview.movieId, $scope.allreviews)
+                                    .then(function(){
+                                        getRollupData();
+                                    })
                             });
                     }
                     return;
@@ -96,14 +102,18 @@
                         });
                     }
                 );
-                rollupService.get($scope.myreview.movieId).then(
-                    function(rollup){
-                        if(!rollup) {
-                            rollup = {count: 0, stars: 0};
+
+                function getRollupData() {
+                    rollupService.get($scope.myreview.movieId).then(
+                        function (rollup) {
+                            if (!rollup) {
+                                rollup = {count: 0, stars: 0};
+                            }
+                            $scope.averageStars = rollup.count > 0 ? (rollup.stars / rollup.count) : 0;
                         }
-                        $scope.averageStars = rollup.count > 0 ? (rollup.stars / rollup.count) : 0;
-                    }
-                );
+                    );
+                }
+                getRollupData();
 
             }
         ]);
