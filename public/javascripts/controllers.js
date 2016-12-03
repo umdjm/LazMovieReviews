@@ -19,6 +19,7 @@
         }
     ]);
 
+    /* Get rid of component for now since breaks more than one issue
     app.controller('IndividualMovieReviewListController', [
         '$scope',
         'reviewService',
@@ -43,6 +44,7 @@
             userId: '<'
         }
     });
+    */
 
     app.controller('ReviewController', [
             '$scope',
@@ -52,7 +54,7 @@
             'Omdb',
             function($scope, $routeParams, reviewService, rollupService, Omdb) {
                 var movieID = $routeParams.imdbID;
-                $scope.myreview = {movieId: movieID, userId: "F7ahm9dW5M", userName: "Alex", stars:null, blog: null};
+                $scope.myreview = {movieId: movieID, userId: "vS2gdwcbGF", userName: "Kayla", stars:null, blog: null};
 
                 Omdb.get(movieID).then(
                     function(movie){
@@ -93,7 +95,8 @@
                     function(reviews){
                         $scope.allreviews = {};
                         reviews.forEach(function(review){
-                            $scope.allreviews[review.objectId] = review;
+                            if (review.userId != $scope.myreview.userId)
+                                $scope.allreviews[review.objectId] = review;
                         });
                     }
                 );
@@ -113,7 +116,7 @@
             }
         ]);
 
-    app.filter('notMine', function() {
+    /*app.filter('notMine', function() {
         return function(array, userId) {
             if(!angular.isObject(array)) return array;
             else {
@@ -127,5 +130,5 @@
                 return newObj;
             }
         }
-    })
+    })*/
 })();
