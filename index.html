@@ -9,6 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular-route.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angularFire/2.1.0/angularfire.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-local-storage/0.5.0/angular-local-storage.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/3.6.2/firebase.js"></script>
     <script>
         // Initialize Firebase
@@ -28,7 +29,6 @@
     <script src="public/javascripts/navigation.js"></script>
     <script src="public/javascripts/users.js"></script>
     <script src="public/javascripts/main.js"></script>
-    <script src="public/javascripts/login.js"></script>
     <script src="public/javascripts/signup.js"></script>
     <script src="public/javascripts/searchMovies.js"></script>
     <script src="public/javascripts/comments.js"></script>
@@ -44,13 +44,21 @@
     <header class="site-container header">
         <img src="public/images/logo.png" alt="LAZ Movie Reviews" class="logo" />
         <!--<a href="#" class="btn btn-primary btn-lg float-xs-right">Login with Facebook</a>-->
-        <navigation></navigation>
+        <navigation ng-if="isAuthenticated"></navigation>
     </header>
 
-    <movie-search></movie-search>
+    <movie-search ng-if="isAuthenticated"></movie-search>
 
-    <section class="site-container content">
+    <section class="site-container content" ng-if="isAuthenticated">
         <div ng-view></div>
+    </section>
+
+    <section class="login" ng-if="!isAuthenticated">
+        <form name="loginForm" ng-submit="login()">
+            <input type="text" name="email" ng-model="user.email" placeholder="Email Address"><br>
+            <input type="password" name="password" ng-model="user.password" placeholder="Password"><br>
+            <input type="submit" value="Login">
+        </form>
     </section>
 </body>
 </html>

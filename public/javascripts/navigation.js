@@ -10,8 +10,11 @@
 
     app.controller('NavigationController', [
         '$scope',
-        function NavigationController($scope) {
-            console.log('NavigationController()');
+        '$rootScope',
+        function($scope, $rootScope) {
+            $scope.logout = function() {
+                $rootScope.logout();
+            }
         }
     ]);
 })();

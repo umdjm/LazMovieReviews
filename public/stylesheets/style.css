@@ -38,6 +38,31 @@ body > header > navigation > ul li a:hover {
     background-color: #fff;
 }
 
+section.login {
+    width: 250px;
+    margin: 50px auto;
+}
+
+section.login input[type=text],
+section.login input[type=password] {
+    width: 100%;
+    margin-bottom: 12px;
+    border: 0;
+    padding: 4px 8px;
+    border-radius: 4px;
+    outline: none;
+}
+
+section.login input[type=submit] {
+    border: 0;
+    float: right;
+    padding: 6px 12px;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    background-color: #FEE834;
+}
+
 .logo {
     max-width: 100%;
     width: auto;
