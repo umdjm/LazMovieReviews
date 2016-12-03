@@ -55,35 +55,31 @@
 
             Omdb.get($scope.movieId).then(
                 function(movie){
+                    movie.objectId = $scope.movieId;
                     $scope.movie = movie;
                 }
             );
 
-            $scope.isCurrentUser = function(review) {
-                return function(review) {
-                    return review.userId == $scope.myreview.userId;
-                };
-            };
-
             $scope.addReview = function() {
                 if ($scope.myreview['objectId']) {
-                    return reviewService.updateReview($scope.myreview)
+                    return reviewService.updateReview($scope.myreview, $scope.movie)
                         .then(function(response){
-                            return setRollupData(response.rollup);
+                            setRollupData(response.rollup);
                         });
                 } else {
-                    return reviewService.addReview($scope.myreview)
+                    return reviewService.addReview($scope.myreview, $scope.movie)
                         .then(function(response){
                             $scope.myreview.objectId = response.objectId;
-                            return setRollupData(response.rollup);
+                            setRollupData(response.rollup);
                         });
                 }
             };
 
             reviewService.getMyReview($scope.myreview.userId, $scope.myreview.movieId).then(
                 function(review){
-                    if (review)
+                    if (review) {
                         $scope.myreview = review;
+                    }
                 }
             );
 
@@ -92,9 +88,9 @@
             }
             function setRollupData(rollup){
                 if (!rollup) {
-                    rollup = {count: 0, stars: 0};
+                    rollup = {count: 0, stars: 0, averageStars: 0};
                 }
-                $scope.averageStars = rollup.count > 0 ? (rollup.stars / rollup.count) : 0;
+                $scope.averageStars = rollup.averageStars;
             }
             getRollupData();
 
