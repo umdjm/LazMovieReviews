@@ -59,6 +59,20 @@
                     });
             }
 
+            function getUserReviews(userId) {
+                var where = {userId: userId};
+                return $http({
+                    url: url,
+                    headers: { 'X-Parse-Application-Id':'9d300721-df9d-42bc-8411-1659efbbed66' },
+                    method: "GET",
+                    params: {where: JSON.stringify(where)}
+                }).then(function success(response) {
+                    return response.data.results;
+                }, function fail(response){
+                    console.log(JSON.stringify(response));
+                });
+            }
+
             function getAllReviews(movieId) {
                 var where = {movieId: movieId};
                 return $http({
@@ -77,6 +91,7 @@
                 addReview: addReview,
                 getMyReview: getMyReview,
                 getAllReviews: getAllReviews,
+                getUserReviews: getUserReviews,
                 updateReview: updateReview
 
             };
