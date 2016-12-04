@@ -23,6 +23,7 @@
             $scope.allUserMovies = [];
             reviewService.getUserReviews($scope.userId).then(
                 function(results) {
+                    $scope.userReviews = results[0].userName;
                     $scope.reviews = results;
                     for (var i = 0; i < results.length; i++) {
                         var movieId = results[i].movieId;
@@ -54,8 +55,6 @@
         'Omdb',
         function($scope, $routeParams, reviewService, rollupService, authService, Omdb) {
             $scope.userId = $routeParams.userId;
-            $scope.user = authService.getCurrentUser();
-            $scope.userName = $scope.user.name;
         }
     ]);
 
