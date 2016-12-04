@@ -67,12 +67,10 @@
                 }).then(function success(response) {
                     if(response.data.results.length > 0) {
                         var foundUser = response.data.results[0];
-                        user.userId = foundUser.objectId;
-                        user.name = foundUser.name;
-                        return user;
+                        return foundUser;
                     }
                     return addUser(user).then(function(userId){
-                        return user;
+                        return {objectId: userId};
                     })
                 }, function fail(response){
                     console.log(JSON.stringify(response));

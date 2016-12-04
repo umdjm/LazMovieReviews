@@ -110,7 +110,7 @@
                 var deferred = $q.defer();
 
                 auth.$signInWithEmailAndPassword(email, password).then(function(user) {
-                    self.user = user;
+                    self.user = {uid: user.uid, email: user.email};
 
                     userService.getStoredUser(self.user).then(function(user){
                         self.user.userId = user.objectId;
@@ -129,9 +129,9 @@
                 var deferred = $q.defer();
 
                 auth.$createUserWithEmailAndPassword(email, password).then(function(user) {
-                    self.user = user;
-                    self.user.name = name;
-                    userService.addUser(self.user).then(function(userId){
+                    self.user = {uid: user.uid, email: user.email, name: name};
+                    userService.addUser(self.user).then(function(user){
+                        self.user.userId = user.userId;
                         LocalStorage.set('user', self.user);
                         deferred.resolve(self.user);
                     });

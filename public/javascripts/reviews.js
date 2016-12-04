@@ -50,9 +50,10 @@
         'AuthService',
         'Omdb',
         function($scope, $routeParams, reviewService, rollupService, authService, Omdb) {
-            $scope.userId = authService.getCurrentUser().uid;
+            $scope.user = authService.getCurrentUser();
+            $scope.userId = $scope.user.userId;
             $scope.movieId = $routeParams.imdbID;
-            $scope.myreview = {movieId: $scope.movieId, userId: $scope.userId, userName: "Kayla", stars:null, blog: null};
+            $scope.myreview = {movieId: $scope.movieId, userId: $scope.user.userId, userName: $scope.user.name, stars:null, blog: null};
 
             Omdb.get($scope.movieId).then(
                 function(movie){
@@ -80,6 +81,7 @@
                 function(review){
                     if (review) {
                         $scope.myreview = review;
+                        $scope.myreview.userName = $scope.user.name;
                     }
                 }
             );
