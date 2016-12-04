@@ -63,6 +63,16 @@
             );
 
             $scope.addReview = function() {
+                $scope.flag = false;
+                $scope.buttonClicked = function() {
+                    $scope.flag = true;
+                    Service.doService.then(function(){
+                        $scope.flag = false;
+                    }).error(function(){
+                        $scope.flag = false;
+                    })
+                }
+
                 if ($scope.myreview['objectId']) {
                     return reviewService.updateReview($scope.myreview, $scope.movie)
                         .then(function(response){

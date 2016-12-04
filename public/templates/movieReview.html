@@ -32,7 +32,7 @@
     <span class="star star-hover" ng-click="myreview.stars = 5" ng-class="{'star-active': myreview.stars > 4.5}"></span>
 
     <textarea ng-model="myreview.blog" placeholder="Comment"> </textarea>
-    <button ng-click="addReview()" class="btn btn-primary">Submit</button>
+    <button ng-click="addReview()" ng-dblclick="return false;" ng-disabled="flag" class="btn btn-primary">Submit</button>
 </span>
 
 
