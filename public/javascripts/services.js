@@ -11,14 +11,14 @@
             var config = {headers: { 'X-Parse-Application-Id':'9d300721-df9d-42bc-8411-1659efbbed66'}};
 
             function addReview(data, movie) {
+                var reviewId = null;
                 return $http.post(url, data, config)
                     .then(function success(response) {
-                        var reviewId = response.data.objectId;
-                        return updateRollup(movie).then(function(rollup){
-                            return {objectId: reviewId, rollup: rollup};
-                        })
-                    }, function fail(response) {
-                        console.log(JSON.stringify(response));
+                        reviewId = response.data.objectId;
+                        return updateRollup(movie);
+                    })
+                    .then(function(rollup){
+                        return {objectId: reviewId, rollup: rollup};
                     });
             }
 
@@ -26,33 +26,33 @@
                 var newUrl = url + "/" + data.objectId;
                 var reviewId = data.objectId;
                 return $http.put(newUrl, removeParsePrivateData(data), config)
-                    .then(function success(response) {
-                        return updateRollup(movie).then(function(rollup){
-                            return {objectId: reviewId, rollup: rollup};
-                        })
-                    }, function fail(response) {
-                        console.log(JSON.stringify(response));
+                    .then(function(){
+                        return updateRollup(movie);
+                    })
+                    .then(function(rollup){
+                        return {objectId: reviewId, rollup: rollup};
                     });
             }
 
             function updateRollup(movie){
                 return getAllReviews(movie.objectId)
                     .then(function(reviews){
-                        return rollupService.save(movie, reviews)
-                            .then(function(rollup){
-                                return rollup;
-                            })
-                    });
+                        return rollupService.save(movie, reviews);
+                    })
+                    .then(function(rollup){
+                        return rollup;
+                    })
             }
 
             function getMyReview(userId, movieId) {
                 var where = {userId: userId, movieId: movieId};
                 return $http({
-                    url: url,
-                    headers: { 'X-Parse-Application-Id':'9d300721-df9d-42bc-8411-1659efbbed66' },
-                    method: "GET",
-                    params: {where: JSON.stringify(where)}
-                }).then(function success(response) {
+                        url: url,
+                        headers: { 'X-Parse-Application-Id':'9d300721-df9d-42bc-8411-1659efbbed66' },
+                        method: "GET",
+                        params: {where: JSON.stringify(where)}
+                    })
+                    .then(function success(response) {
                         return response.data.results[0];
                     }, function fail(response){
                         console.log(JSON.stringify(response));
@@ -222,15 +222,15 @@
                     });
             }
             function search(title) {
+                var searchResults = [];
                 return $http.get(url + $httpParamSerializer({s: title}))
                     .then(function success(response) {
-                        return rollupService.getRollupsForMovies(response.data.Search)
-                            .then(function(ratedMovies){
-                                return response.data;
-                            })
-                }, function fail(response){
-                    console.log(JSON.stringify(response));
-                });
+                        searchResults = response.data;
+                        return rollupService.getRollupsForMovies(response.data.Search);
+                    })
+                    .then(function(ratedMovies){
+                        return searchResults;
+                    });
             }
             return {
                 get: get,
