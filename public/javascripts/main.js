@@ -26,7 +26,7 @@
                     }
                 );
 
-                rollupService.getTopRollups().then(
+                rollupService.getTopRollups(10).then(
                     function(topMovies){
                         $scope.topMovies = topMovies;
                     }
