@@ -1,0 +1,23 @@
+<hr />
+<div ng-show="allUserMovies.length" class="row">
+    <div class="col col-20" ng-repeat="movie in allUserMovies">
+        <a ng-href="/#/reviews/{{movie.imdbID}}" class="movie-list">
+            <img class="movie-poster" ng-src="{{movie.Poster}}" alt="{{movie.Title}}">
+            <span class="movie-title">{{movie.Title}}</span>
+        </a>
+        <div ng-repeat="review in reviews | filter:{'movieId': movie.imdbID}:true">
+            <span class="movie-rating"">
+                <span class="star" ng-class="{'star-active': review.stars >= 1}"></span>
+                <span class="star" ng-class="{'star-active': review.stars >= 2}"></span>
+                <span class="star" ng-class="{'star-active': review.stars >= 3}"></span>
+                <span class="star" ng-class="{'star-active': review.stars >= 4}"></span>
+                <span class="star" ng-class="{'star-active': review.stars == 5}"></span>
+            </span>
+            <p> {{review.blog}} </p>
+        </div>
+    </div>
+    <div></div>
+    <div>
+        Showing {{allUserMovies.length}} total reviews.
+    </div>
+</div>
