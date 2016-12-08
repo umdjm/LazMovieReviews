@@ -11,7 +11,7 @@
         function($locationProvider, localStorageServiceProvider) {
             $locationProvider.html5Mode({
                 enabled: false,
-                requireBase: false
+                requireBase: true
             });
 
             localStorageServiceProvider.setPrefix('LazMovieReviews');
